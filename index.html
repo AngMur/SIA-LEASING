@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Leasing Landing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+    }
+
+    /* HEADER */
+    header {
+      position: absolute;
+      top: 0;
+      width: 90%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 3;
+      background: transparent;
+    }
+
+    .logo img {
+      height: 40px;
+      object-fit: contain;
+      filter: brightness(0) invert(1); /* blanco */
+    }
+
+    nav a {
+      color: white;
+      margin-left: 25px;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #f5d547;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    }
+
+    .hero video {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 20%;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 20px;
+    }
+
+    .subtitle {
+      letter-spacing: 4px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      letter-spacing: 5px;
+      color: #f5d547;
+      margin: 0;
+    }
+
+    .description {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #ddd;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 28px;
+      border: 2px solid #f5d547;
+      color: #f5d547;
+      text-decoration: none;
+      letter-spacing: 2px;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .next-section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+  </style>
+
+   <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    .section {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 80px 40px 60px;
+    }
+
+    .section-tag {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #888888;
+      font-weight: 500;
+      margin-bottom: 36px;
+      display: block;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: start;
+    }
+
+    .headline {
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      font-weight: 500;
+      line-height: 1.2;
+      color: #111111;
+    }
+
+    .headline .blue {
+      color: #3a8bd1;
+    }
+
+    .body-text {
+      font-size: 0.95rem;
+      color: #666666;
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .check-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .check-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 0.95rem;
+      color: #222222;
+      line-height: 1.55;
+    }
+
+    .check-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #e8f3fb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .check-icon svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid #e8e8e8;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 0 16px;
+    }
+
+    .stat + .stat {
+      border-left: 1px solid #e8e8e8;
+    }
+
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 500;
+      color: #111111;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: #888888;
+      margin-top: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    @media (max-width: 768px) {
+      .content-grid { grid-template-columns: 1fr; gap: 36px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); gap: 0; }
+      .stat:nth-child(3) { border-left: none; border-top: 1px solid #e8e8e8; padding-top: 24px; margin-top: 24px; }
+      .stat:nth-child(4) { border-top: 1px solid #e8e8e8; padding-top: 24px; margin-top: 24px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <img src="OIP-removebg-preview.png" alt="Logo">
+    </div>
+    <nav>
+      <a href="#">Inicio</a>
+      <a href="#">Servicios</a>
+      <a href="#">Beneficios</a>
+      <a href="#">Contacto</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <video autoplay muted loop playsinline>
+      <source src="19086476-hd_1080_1920_60fps.mp4" type="video/mp4">
+      Tu navegador no soporta video HTML5.
+    </video>
+
+    <div class="hero-content">
+      <p class="subtitle">SOLUCIONES FLEXIBLES PARA TU NEGOCIO</p>
+      <h1>FINANCIAMIENTO INTELIGENTE</h1>
+      <p class="description">Estrena espacios y equipos sin grandes inversiones.</p>
+      <a href="#" class="btn">COTIZA AHORA</a>
+    </div>
+
+  </section>
+
+
+  <section class="section">
+
+  <span class="section-tag">Bienvenido a SIA Leasing</span>
+
+  <div class="content-grid">
+
+    <!-- Título izquierda -->
+    <div>
+      <h2 class="headline">
+        En SIA Leasing, somos profesionales con amplia experiencia en
+        <span class="blue">Financiamiento de Activos.</span>
+      </h2>
+    </div>
+
+    <!-- Descripción + checkmarks derecha -->
+    <div>
+      <p class="body-text">
+        Contamos con un equipo especializado que entiende las necesidades reales de tu empresa, ofreciendo soluciones flexibles y a la medida para que puedas crecer sin comprometer tu capital.
+      </p>
+
+      <ul class="check-list">
+        <li>
+          <div class="check-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#3a8bd1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          Más de 14 años financiando activos para empresas mexicanas
+        </li>
+        <li>
+          <div class="check-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#3a8bd1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          Contratos flexibles sin grandes desembolsos iniciales
+        </li>
+        <li>
+          <div class="check-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#3a8bd1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          Asesoría personalizada en cada etapa del proceso
+        </li>
+        <li>
+          <div class="check-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#3a8bd1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          Procesos ágiles y transparentes, sin letra pequeña sorpresa
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num">+500</div>
+      <div class="stat-label">Clientes activos</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">14+</div>
+      <div class="stat-label">Años de experiencia</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Satisfacción de clientes</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$2B+</div>
+      <div class="stat-label">En activos financiados</div>
+    </div>
+  </div>
+
+</section>
+
+
+<style>
+  .sia-footer { background:#1c1c1c; padding:48px 40px; font-family:'DM Sans',sans-serif; }
+  .sia-footer__inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:40px; }
+  .sia-footer__left { text-align:center; }
+  .sia-footer__left-item { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; color:#fff; line-height:2; display:block; text-decoration:none; letter-spacing:.01em; transition:color .2s; }
+  .sia-footer__left-item:hover { color:#f5d547; }
+  .sia-footer__center { display:flex; flex-direction:column; align-items:center; gap:22px; }
+  .sia-footer__logo { width:180px; height:auto; object-fit:contain; filter:brightness(0) invert(1); }
+  .sia-footer__logo-fallback { text-align:center; }
+  .sia-footer__logo-name { font-family:'Syne',sans-serif; font-weight:800; font-size:1.8rem; color:#fff; letter-spacing:.08em; }
+  .sia-footer__logo-name--accent { color:#f5d547; }
+  .sia-footer__logo-tagline { font-family:'Syne',sans-serif; font-weight:700; font-size:.6rem; color:#888; letter-spacing:.2em; margin-top:4px; }
+  .sia-footer__social { display:flex; align-items:center; gap:26px; }
+  .sia-footer__social-link { color:#f5d547; display:flex; align-items:center; text-decoration:none; transition:opacity .2s; }
+  .sia-footer__social-link:hover { opacity:.65; }
+  .sia-footer__social-link svg { width:22px; height:22px; }
+  .sia-footer__right { text-align:center; }
+  .sia-footer__member-label { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; color:#fff; display:block; margin-bottom:10px; }
+  .sia-footer__assoc-name { font-family:'Syne',sans-serif; font-weight:800; font-size:2.2rem; color:#fff; letter-spacing:-.02em; line-height:1; }
+  .sia-footer__assoc-name--accent { color:#f5d547; }
+  .sia-footer__assoc-desc { font-family:'Syne',sans-serif; font-weight:700; font-size:.68rem; color:#999; margin-top:8px; letter-spacing:.03em; line-height:1.55; }
+  .sia-footer__wa-btn { position:fixed; bottom:28px; right:28px; z-index:999; width:56px; height:56px; background:#25d366; border-radius:50%; display:flex; align-items:center; justify-content:center; text-decoration:none; transition:transform .2s; animation:sia-pulse 2.5s ease-in-out infinite; }
+  .sia-footer__wa-btn:hover { transform:scale(1.08); }
+  .sia-footer__wa-btn svg { width:30px; height:30px; fill:#fff; }
+  @keyframes sia-pulse {
+    0%,100% { box-shadow:0 4px 18px rgba(37,211,102,.5); }
+    50%      { box-shadow:0 4px 34px rgba(37,211,102,.85); }
+  }
+  @media (max-width:768px) {
+    .sia-footer__inner { grid-template-columns:1fr; gap:36px; }
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+<a href="https://wa.me/525512345678" target="_blank" class="sia-footer__wa-btn" title="WhatsApp">
+  <svg viewBox="0 0 32 32"><path d="M16 0C7.16 0 0 7.16 0 16c0 2.82.74 5.47 2.03 7.78L0 32l8.45-2.01A15.94 15.94 0 0016 32c8.84 0 16-7.16 16-16S24.84 0 16 0zm7.22 19.36c-.4-.2-2.34-1.15-2.7-1.28-.36-.13-.63-.2-.89.2s-1.02 1.28-1.25 1.55c-.23.27-.46.3-.85.1-.4-.2-1.67-.62-3.18-1.97-1.18-1.05-1.97-2.34-2.2-2.74-.23-.4-.02-.61.17-.81.17-.18.4-.46.6-.7.2-.23.27-.4.4-.66.13-.27.07-.5-.03-.7-.1-.2-.89-2.15-1.22-2.94-.32-.77-.65-.67-.89-.68h-.76c-.27 0-.7.1-1.06.5-.36.4-1.38 1.35-1.38 3.29s1.41 3.81 1.61 4.08c.2.27 2.78 4.24 6.73 5.95.94.4 1.67.64 2.24.82.94.3 1.8.26 2.47.16.75-.11 2.34-.96 2.67-1.88.33-.93.33-1.72.23-1.88-.1-.16-.36-.27-.76-.47z"/></svg>
+</a>
+
+<footer class="sia-footer">
+  <div class="sia-footer__inner">
+
+    <div class="sia-footer__left">
+      <p class="sia-footer__left-item">Tel. 55 1234 5678</p>
+      <a href="mailto:contacto@sialeasing.com" class="sia-footer__left-item">E-mail: contacto@sialeasing.com</a>
+      <a href="#" class="sia-footer__left-item">Aviso de privacidad web</a>
+      <a href="#" class="sia-footer__left-item">Aviso de privacidad clientes</a>
+    </div>
+
+    <div class="sia-footer__center">
+      <img src="./OIP-removebg-preview.png" alt="SIA Leasing Logo" class="sia-footer__logo"
+        onerror="this.style.display='none'; document.getElementById('sia-logo-fallback').style.display='block';">
+      <div id="sia-logo-fallback" style="display:none;" class="sia-footer__logo-fallback">
+        <span class="sia-footer__logo-name">SIA <span class="sia-footer__logo-name--accent">Leasing</span></span>
+        <p class="sia-footer__logo-tagline">TU ALIADO · TU CAPITAL · TUS REGLAS</p>
+      </div>
+
+      <div class="sia-footer__social">
+        <a href="https://wa.me/525512345678" target="_blank" class="sia-footer__social-link" title="WhatsApp">
+          <svg viewBox="0 0 32 32"><path d="M16 0C7.16 0 0 7.16 0 16c0 2.82.74 5.47 2.03 7.78L0 32l8.45-2.01A15.94 15.94 0 0016 32c8.84 0 16-7.16 16-16S24.84 0 16 0zm7.22 19.36c-.4-.2-2.34-1.15-2.7-1.28-.36-.13-.63-.2-.89.2s-1.02 1.28-1.25 1.55c-.23.27-.46.3-.85.1-.4-.2-1.67-.62-3.18-1.97-1.18-1.05-1.97-2.34-2.2-2.74-.23-.4-.02-.61.17-.81.17-.18.4-.46.6-.7.2-.23.27-.4.4-.66.13-.27.07-.5-.03-.7-.1-.2-.89-2.15-1.22-2.94-.32-.77-.65-.67-.89-.68h-.76c-.27 0-.7.1-1.06.5-.36.4-1.38 1.35-1.38 3.29s1.41 3.81 1.61 4.08c.2.27 2.78 4.24 6.73 5.95.94.4 1.67.64 2.24.82.94.3 1.8.26 2.47.16.75-.11 2.34-.96 2.67-1.88.33-.93.33-1.72.23-1.88-.1-.16-.36-.27-.76-.47z" fill="currentColor"/></svg>
+        </a>
+        <a href="#" class="sia-footer__social-link" title="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="#" class="sia-footer__social-link" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </a>
+        <a href="#" class="sia-footer__social-link" title="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4V9h4v2a6 6 0 014-3z"/>
+            <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+        <a href="#" class="sia-footer__social-link" title="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="sia-footer__right">
+      <span class="sia-footer__member-label">Ubicaciones</span>
+      <div class="sia-footer__assoc-name">Mé<span class="sia-footer__assoc-name--accent">xi</span>co</div>
+      <p class="sia-footer__assoc-desc">Ciudad de México<br>Aguascalientes</p>
+    </div>
+
+  </div>
+</footer>
+
+
+</body>
+</html>
