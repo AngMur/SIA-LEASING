@@ -43,7 +43,6 @@
       visibility: hidden;
     }
 
-    /* Logo placeholder */
     .loader-logo-wrap {
       width: 140px;
       height: 140px;
@@ -64,7 +63,6 @@
       padding: 16px;
     }
 
-    /* Fallback text if image missing */
     .loader-logo-wrap .loader-logo-text {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
@@ -78,7 +76,6 @@
 
     .loader-logo-wrap .loader-logo-text span { color: var(--yellow); opacity: 0.7; }
 
-    /* Dots */
     .loader-dots {
       display: flex;
       align-items: center;
@@ -102,6 +99,59 @@
     @keyframes dot-bounce {
       0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
       40%            { transform: scale(1);   opacity: 1; }
+    }
+
+    /* ── SCROLL ANIMATIONS ──────────────────────────────────── */
+
+    /* Base estado invisible */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Variante: deslizar desde la izquierda */
+    [data-reveal="left"] {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+
+    /* Variante: deslizar desde la derecha */
+    [data-reveal="right"] {
+      opacity: 0;
+      transform: translateX(40px);
+    }
+
+    /* Variante: escala (para stats y elementos de impacto) */
+    [data-reveal="scale"] {
+      opacity: 0;
+      transform: scale(0.88);
+      transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Estado visible — la clase .revealed se agrega con JS */
+    [data-reveal].revealed {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Delays para stagger (hijos con data-delay) */
+    [data-delay="1"] { transition-delay: 0.08s; }
+    [data-delay="2"] { transition-delay: 0.18s; }
+    [data-delay="3"] { transition-delay: 0.28s; }
+    [data-delay="4"] { transition-delay: 0.38s; }
+    [data-delay="5"] { transition-delay: 0.48s; }
+    [data-delay="6"] { transition-delay: 0.58s; }
+
+    /* Contador animado */
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #111;
+      line-height: 1;
     }
 
     /* ── HEADER ─────────────────────────────────────────────── */
@@ -242,6 +292,49 @@
       padding: 0 24px;
     }
 
+    /* Hero content anima al cargar, de arriba hacia abajo */
+
+    /* El subtitle aparece primero */
+    .hero-content .subtitle {
+      opacity: 0;
+      transform: translateY(-18px);
+      animation: hero-down 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.8s forwards;
+    }
+
+    /* h1: efecto cortina por línea */
+    .hero-content h1 {
+      overflow: hidden;
+    }
+
+    .hero-content h1 .hero-line {
+      display: block;
+      opacity: 0;
+      transform: translateY(-100%);
+      animation: hero-line-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Descripción */
+    .hero-content .description {
+      opacity: 0;
+      transform: translateY(-18px);
+      animation: hero-down 0.8s cubic-bezier(0.22, 1, 0.36, 1) 3.5s forwards;
+    }
+
+    /* Botón */
+    .hero-content .btn {
+      opacity: 0;
+      transform: translateY(-14px);
+      animation: hero-down 0.75s cubic-bezier(0.22, 1, 0.36, 1) 4.3s forwards;
+    }
+
+    @keyframes hero-down {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes hero-line-in {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .subtitle {
       letter-spacing: 4px;
       font-size: 12px;
@@ -253,16 +346,12 @@
 
     .hero h1 {
       font-family: 'Syne', sans-serif;
-      /* fluid scale: 1.6rem on tiny screens → 3.6rem on desktop */
       font-size: clamp(1.6rem, 5.5vw, 3.6rem);
       font-weight: 400;
-      /* reduce letter-spacing on small screens so it doesn't overflow */
       letter-spacing: clamp(1px, 1.2vw, 5px);
       color: var(--yellow);
       line-height: 1.1;
       margin: 0;
-      /* word-break: break-word; */
-      /* overflow-wrap: break-word; */
     }
 
     .description {
@@ -367,14 +456,6 @@
 
     .stat { text-align: center; padding: 0 16px; }
     .stat + .stat { border-left: 1px solid #e8e8e8; }
-
-    .stat-num {
-      font-family: 'Syne', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: #111;
-      line-height: 1;
-    }
 
     .stat-label {
       font-size: 0.78rem;
@@ -525,7 +606,6 @@
       header.scrolled { padding: 10px 18px; }
 
       .hero { clip-path: polygon(0 0, 100% 0, 100% 96%, 0 100%); }
-      /* Extra safeguard: reduce letter-spacing to near-zero on tiny screens */
       .hero h1 { letter-spacing: 1px; }
       .subtitle { letter-spacing: 2px; font-size: 10px; }
 
@@ -535,6 +615,23 @@
 
       .wa-btn { width: 50px; height: 50px; bottom: 20px; right: 20px; }
       .wa-btn svg { width: 26px; height: 26px; }
+    }
+
+    /* Reducir movimiento si el usuario lo prefiere */
+    @media (prefers-reduced-motion: reduce) {
+      [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .hero-content .subtitle,
+      .hero-content h1,
+      .hero-content .description,
+      .hero-content .btn {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
     }
   </style>
 </head>
@@ -584,7 +681,10 @@
     </video>
     <div class="hero-content">
       <p class="subtitle">Soluciones flexibles para tu negocio</p>
-      <h1>FINANCIAMIENTO INTELIGENTE</h1>
+      <h1>
+        <span class="hero-line" style="animation-delay: 2.6s">FINANCIAMIENTO</span>
+        <span class="hero-line" style="animation-delay: 3.1s">INTELIGENTE</span>
+      </h1>
       <p class="description">Estrena espacios y equipos sin grandes inversiones.</p>
       <a href="#" class="btn">Cotiza ahora</a>
     </div>
@@ -592,32 +692,34 @@
 
   <!-- ABOUT -->
   <section class="section">
-    <span class="section-tag">Bienvenido a SIA Leasing</span>
+
+    <span class="section-tag" data-reveal>Bienvenido a SIA Leasing</span>
+
     <div class="content-grid">
-      <div>
+      <div data-reveal="left">
         <h2 class="headline">
           En SIA Leasing, somos profesionales con amplia experiencia en
           <span class="blue">Financiamiento de Activos.</span>
         </h2>
       </div>
-      <div>
+      <div data-reveal="right">
         <p class="body-text">
           Contamos con un equipo especializado que entiende las necesidades reales de tu empresa, ofreciendo soluciones flexibles y a la medida para que puedas crecer sin comprometer tu capital.
         </p>
         <ul class="check-list">
-          <li>
+          <li data-reveal data-delay="1">
             <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3a8bd1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
             Más de 14 años financiando activos para empresas mexicanas
           </li>
-          <li>
+          <li data-reveal data-delay="2">
             <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3a8bd1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
             Contratos flexibles sin grandes desembolsos iniciales
           </li>
-          <li>
+          <li data-reveal data-delay="3">
             <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3a8bd1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
             Asesoría personalizada en cada etapa del proceso
           </li>
-          <li>
+          <li data-reveal data-delay="4">
             <div class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#3a8bd1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
             Procesos ágiles y transparentes, sin letra pequeña sorpresa
           </li>
@@ -625,12 +727,26 @@
       </div>
     </div>
 
+    <!-- Stats con contadores animados -->
     <div class="stats-row">
-      <div class="stat"><div class="stat-num">+500</div><div class="stat-label">Clientes activos</div></div>
-      <div class="stat"><div class="stat-num">14+</div><div class="stat-label">Años de experiencia</div></div>
-      <div class="stat"><div class="stat-num">98%</div><div class="stat-label">Satisfacción de clientes</div></div>
-      <div class="stat"><div class="stat-num">$2B+</div><div class="stat-label">En activos financiados</div></div>
+      <div class="stat" data-reveal="scale" data-delay="1">
+        <div class="stat-num" data-count="500" data-prefix="+" data-suffix="">+500</div>
+        <div class="stat-label">Clientes activos</div>
+      </div>
+      <div class="stat" data-reveal="scale" data-delay="2">
+        <div class="stat-num" data-count="14" data-prefix="" data-suffix="+">14+</div>
+        <div class="stat-label">Años de experiencia</div>
+      </div>
+      <div class="stat" data-reveal="scale" data-delay="3">
+        <div class="stat-num" data-count="98" data-prefix="" data-suffix="%">98%</div>
+        <div class="stat-label">Satisfacción de clientes</div>
+      </div>
+      <div class="stat" data-reveal="scale" data-delay="4">
+        <div class="stat-num" data-count="2" data-prefix="$" data-suffix="B+">$2B+</div>
+        <div class="stat-label">En activos financiados</div>
+      </div>
     </div>
+
   </section>
 
   <!-- WHATSAPP -->
@@ -641,14 +757,14 @@
   <!-- FOOTER -->
   <footer class="sia-footer">
     <div class="sia-footer__inner">
-      <div class="sia-footer__left">
+      <div class="sia-footer__left" data-reveal="left">
         <p class="sia-footer__left-item">Tel. 55 1234 5678</p>
         <a href="mailto:contacto@sialeasing.com" class="sia-footer__left-item">contacto@sialeasing.com</a>
         <a href="#" class="sia-footer__left-item">Aviso de privacidad web</a>
         <a href="#" class="sia-footer__left-item">Aviso de privacidad clientes</a>
       </div>
 
-      <div class="sia-footer__center">
+      <div class="sia-footer__center" data-reveal="scale">
         <img src="./OIP-removebg-preview.png" alt="SIA Leasing" class="sia-footer__logo" onerror="this.style.display='none'">
         <div class="sia-footer__social">
           <a href="https://wa.me/525512345678" target="_blank" class="sia-footer__social-link" title="WhatsApp">
@@ -676,7 +792,7 @@
         </div>
       </div>
 
-      <div class="sia-footer__right">
+      <div class="sia-footer__right" data-reveal="right">
         <span class="sia-footer__member-label">Ubicaciones</span>
         <div class="sia-footer__assoc-name">Mé<span class="sia-footer__assoc-name--accent">xi</span>co</div>
         <p class="sia-footer__assoc-desc">Ciudad de México<br>Aguascalientes</p>
@@ -685,20 +801,20 @@
   </footer>
 
   <script>
-    // Loader
+    /* ── LOADER ─────────────────────────────────────────────── */
     window.addEventListener('load', () => {
       setTimeout(() => {
         document.getElementById('loader').classList.add('hidden');
       }, 1600);
     });
 
-    // Header scroll
+    /* ── HEADER SCROLL ──────────────────────────────────────── */
     const header = document.getElementById('main-header');
     window.addEventListener('scroll', () => {
       header.classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    // Hamburger
+    /* ── HAMBURGER ──────────────────────────────────────────── */
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobile-nav');
 
@@ -712,6 +828,53 @@
       mobileNav.classList.remove('open');
       hamburger.classList.remove('open');
       document.body.style.overflow = '';
+    }
+
+    /* ── INTERSECTION OBSERVER (animaciones al hacer scroll) ── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          // Desconectar una vez animado para no revertir
+          revealObserver.unobserve(entry.target);
+
+          // Si es un stat, disparar el contador
+          const countEl = entry.target.querySelector('[data-count]');
+          if (countEl) animateCounter(countEl);
+        }
+      });
+    }, {
+      threshold: 0.15,       // El 15% del elemento debe ser visible
+      rootMargin: '0px 0px -40px 0px'  // Pequeño offset inferior
+    });
+
+    // Observar todos los elementos con data-reveal
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    /* ── CONTADOR ANIMADO ───────────────────────────────────── */
+    function animateCounter(el) {
+      const target   = parseInt(el.dataset.count, 10);
+      const prefix   = el.dataset.prefix  || '';
+      const suffix   = el.dataset.suffix  || '';
+      const duration = 1400; // ms
+      const start    = performance.now();
+
+      function step(now) {
+        const elapsed  = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Easing suave: easeOutExpo
+        const eased    = 1 - Math.pow(2, -10 * progress);
+        const current  = Math.round(eased * target);
+
+        el.textContent = prefix + current + suffix;
+
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = prefix + target + suffix;
+      }
+
+      requestAnimationFrame(step);
     }
   </script>
 </body>
