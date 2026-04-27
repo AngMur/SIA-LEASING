@@ -7,6 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 
+  <!-- ✅ Web Component del loader -->
+  <script src="./loader-component.js" defer></script>
+
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -22,88 +25,10 @@
       background: #fff;
       color: #111;
       overflow-x: hidden;
-    }
-
-    /* ── LOADER ─────────────────────────────────────────────── */
-    #loader {
-      position: fixed;
-      inset: 0;
-      background: var(--black);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 36px;
-      transition: opacity 0.55s ease, visibility 0.55s ease;
-    }
-
-    #loader.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .loader-logo-wrap {
-      width: 140px;
-      height: 140px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.06);
-      border: 1px dashed rgba(255,255,255,0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .loader-logo-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: brightness(0) invert(1);
-      padding: 16px;
-    }
-
-    .loader-logo-wrap .loader-logo-text {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.1em;
-      text-align: center;
-      text-transform: uppercase;
-      line-height: 1.4;
-    }
-
-    .loader-logo-wrap .loader-logo-text span { color: var(--yellow); opacity: 0.7; }
-
-    .loader-dots {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .loader-dots span {
-      display: block;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--yellow);
-      animation: dot-bounce 1.2s ease-in-out infinite;
-    }
-
-    .loader-dots span:nth-child(1) { animation-delay: 0s; }
-    .loader-dots span:nth-child(2) { animation-delay: 0.18s; }
-    .loader-dots span:nth-child(3) { animation-delay: 0.36s; }
-    .loader-dots span:nth-child(4) { animation-delay: 0.54s; }
-
-    @keyframes dot-bounce {
-      0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
-      40%            { transform: scale(1);   opacity: 1; }
+      width: 100vw;
     }
 
     /* ── SCROLL ANIMATIONS ──────────────────────────────────── */
-
-    /* Base estado invisible */
     [data-reveal] {
       opacity: 0;
       transform: translateY(32px);
@@ -111,19 +36,16 @@
                   transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    /* Variante: deslizar desde la izquierda */
     [data-reveal="left"] {
       opacity: 0;
       transform: translateX(-40px);
     }
 
-    /* Variante: deslizar desde la derecha */
     [data-reveal="right"] {
       opacity: 0;
       transform: translateX(40px);
     }
 
-    /* Variante: escala (para stats y elementos de impacto) */
     [data-reveal="scale"] {
       opacity: 0;
       transform: scale(0.88);
@@ -131,13 +53,11 @@
                   transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    /* Estado visible — la clase .revealed se agrega con JS */
     [data-reveal].revealed {
       opacity: 1;
       transform: none;
     }
 
-    /* Delays para stagger (hijos con data-delay) */
     [data-delay="1"] { transition-delay: 0.08s; }
     [data-delay="2"] { transition-delay: 0.18s; }
     [data-delay="3"] { transition-delay: 0.28s; }
@@ -145,7 +65,6 @@
     [data-delay="5"] { transition-delay: 0.48s; }
     [data-delay="6"] { transition-delay: 0.58s; }
 
-    /* Contador animado */
     .stat-num {
       font-family: 'Syne', sans-serif;
       font-size: 2rem;
@@ -196,7 +115,6 @@
 
     nav a:hover { color: var(--yellow); }
 
-    /* Hamburger */
     .hamburger {
       display: none;
       flex-direction: column;
@@ -221,7 +139,6 @@
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    /* Mobile nav */
     .mobile-nav {
       display: none;
       position: fixed;
@@ -292,19 +209,13 @@
       padding: 0 24px;
     }
 
-    /* Hero content anima al cargar, de arriba hacia abajo */
-
-    /* El subtitle aparece primero */
     .hero-content .subtitle {
       opacity: 0;
       transform: translateY(-18px);
       animation: hero-down 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.8s forwards;
     }
 
-    /* h1: efecto cortina por línea */
-    .hero-content h1 {
-      overflow: hidden;
-    }
+    .hero-content h1 { overflow: hidden; }
 
     .hero-content h1 .hero-line {
       display: block;
@@ -313,14 +224,12 @@
       animation: hero-line-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    /* Descripción */
     .hero-content .description {
       opacity: 0;
       transform: translateY(-18px);
       animation: hero-down 0.8s cubic-bezier(0.22, 1, 0.36, 1) 3.5s forwards;
     }
 
-    /* Botón */
     .hero-content .btn {
       opacity: 0;
       transform: translateY(-14px);
@@ -617,7 +526,6 @@
       .wa-btn svg { width: 26px; height: 26px; }
     }
 
-    /* Reducir movimiento si el usuario lo prefiere */
     @media (prefers-reduced-motion: reduce) {
       [data-reveal] {
         opacity: 1 !important;
@@ -638,17 +546,8 @@
 
 <body>
 
-  <!-- LOADER -->
-  <div id="loader">
-    <div class="loader-logo-wrap">
-      <img src="OIP-removebg-preview.png" alt="Logo"
-        onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-      <div class="loader-logo-text" style="display:none;">SIA<br><span>Leasing</span></div>
-    </div>
-    <div class="loader-dots">
-      <span></span><span></span><span></span><span></span>
-    </div>
-  </div>
+  <!-- ✅ Web Component del loader (reemplaza el <div id="loader">) -->
+  <sia-loader></sia-loader>
 
   <!-- HEADER -->
   <header id="main-header">
@@ -801,13 +700,6 @@
   </footer>
 
   <script>
-    /* ── LOADER ─────────────────────────────────────────────── */
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
-      }, 1600);
-    });
-
     /* ── HEADER SCROLL ──────────────────────────────────────── */
     const header = document.getElementById('main-header');
     window.addEventListener('scroll', () => {
@@ -835,20 +727,17 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('revealed');
-          // Desconectar una vez animado para no revertir
           revealObserver.unobserve(entry.target);
 
-          // Si es un stat, disparar el contador
           const countEl = entry.target.querySelector('[data-count]');
           if (countEl) animateCounter(countEl);
         }
       });
     }, {
-      threshold: 0.15,       // El 15% del elemento debe ser visible
-      rootMargin: '0px 0px -40px 0px'  // Pequeño offset inferior
+      threshold: 0.15,
+      rootMargin: '0px 0px -40px 0px'
     });
 
-    // Observar todos los elementos con data-reveal
     document.querySelectorAll('[data-reveal]').forEach(el => {
       revealObserver.observe(el);
     });
@@ -858,13 +747,12 @@
       const target   = parseInt(el.dataset.count, 10);
       const prefix   = el.dataset.prefix  || '';
       const suffix   = el.dataset.suffix  || '';
-      const duration = 1400; // ms
+      const duration = 1400;
       const start    = performance.now();
 
       function step(now) {
         const elapsed  = now - start;
         const progress = Math.min(elapsed / duration, 1);
-        // Easing suave: easeOutExpo
         const eased    = 1 - Math.pow(2, -10 * progress);
         const current  = Math.round(eased * target);
 
@@ -878,4 +766,4 @@
     }
   </script>
 </body>
-</html>
+</html> 
