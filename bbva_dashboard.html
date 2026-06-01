@@ -219,7 +219,7 @@
   canvas { display: block; }
 
   /* dashboard hidden until loader finishes */
-  #dashboard { transform: translateY(14px); }
+  #dashboard { opacity: 0; transform: translateY(14px); }
 </style>
 </head>
 <body>
@@ -245,7 +245,7 @@
             height: 150px; width: 150px;
             stroke: white; fill-opacity: 0; stroke-width: 3px;
             stroke-dasharray: 4500;
-            animation: draw 4s ease forwards;
+            animation: draw 8s ease;
           }
           @keyframes draw { 0%{stroke-dashoffset:4500} 100%{stroke-dashoffset:0} }
           .name-container { height: 30px; overflow: hidden; }
@@ -276,13 +276,13 @@
         const dashboard   = document.getElementById('dashboard');
 
         // Animate logo name in
-        gsap.to(logoName, { opacity: 1, y: 0, duration: 0.5, delay: 0.2,
+        gsap.to(logoName, { opacity: 1, y: 0, duration: 2, delay: 0.5,
           onStart: () => { gsap.set(logoName, { y: 50 }); }
         });
 
         // Fade out loader, then reveal dashboard
         gsap.to(loadingPage, {
-          opacity: 0, duration: 0.4, delay: 1.8,
+          opacity: 0, duration: 0.5, delay: 3,
           onComplete: () => {
             loadingPage.style.display = 'none';
             document.body.style.overflow = '';
