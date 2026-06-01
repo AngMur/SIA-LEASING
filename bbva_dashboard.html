@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBVA — Dashboard SIA Lease 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+<style>
+  :root {
+    --bg:        #0f2027;
+    --surface:   #162830;
+    --card:      #1a3040;
+    --border:    rgba(255,255,255,0.07);
+    --border-md: rgba(255,255,255,0.13);
+    --text:      #e8f0f4;
+    --muted:     rgba(232,240,244,0.48);
+    --hint:      rgba(232,240,244,0.24);
+    --cyan:      #3bd6c6;
+    --cyan-dim:  rgba(59,214,198,0.12);
+    --red:       #f06060;
+    --red-dim:   rgba(240,96,96,0.12);
+    --sky:       #5ab4f5;
+    --sky-dim:   rgba(90,180,245,0.12);
+    --amber:     #f5b942;
+    --amber-dim: rgba(245,185,66,0.12);
+    --purple:    #a78bfa;
+    --radius:    12px;
+    --radius-sm: 8px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 36px 32px 56px;
+    line-height: 1.5;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-eyebrow {
+    font-family: 'Michroma', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .header-left h1 {
+    font-family: 'Michroma', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    text-transform: uppercase;
+  }
+  .header-left .sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--cyan-dim);
+    border: 1px solid rgba(59,214,198,0.22);
+    color: var(--cyan);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-family: 'DM Mono', monospace;
+  }
+  .badge .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--cyan);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-family: 'Michroma', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    color: var(--hint);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  /* ── KPI GRID ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .kpi {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.2s;
+  }
+  .kpi:hover { border-color: var(--border-md); transform: translateY(-2px); }
+  .kpi::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .kpi.t::before { background: var(--cyan); }
+  .kpi.r::before { background: var(--red); }
+  .kpi.b::before { background: var(--sky); }
+  .kpi.a::before { background: var(--amber); }
+  .kpi-icon {
+    width: 34px; height: 34px;
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+  .kpi.t .kpi-icon { background: var(--cyan-dim);  color: var(--cyan); }
+  .kpi.r .kpi-icon { background: var(--red-dim);   color: var(--red); }
+  .kpi.b .kpi-icon { background: var(--sky-dim);   color: var(--sky); }
+  .kpi.a .kpi-icon { background: var(--amber-dim); color: var(--amber); }
+  .kpi-label {
+    font-size: 10px; color: var(--muted);
+    margin-bottom: 5px; font-weight: 500;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .kpi-value {
+    font-size: 26px; font-weight: 600;
+    letter-spacing: -0.02em; color: var(--text);
+    font-family: 'DM Mono', monospace;
+  }
+  .kpi-sub { font-size: 10px; color: var(--hint); margin-top: 5px; }
+
+  /* ── CHART LAYOUT ── */
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .charts-row.wide { grid-template-columns: 1.5fr 1fr; }
+
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    transition: border-color 0.25s;
+  }
+  .chart-card:hover { border-color: var(--border-md); }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .card-header h3 { font-size: 13px; font-weight: 500; color: var(--text); }
+  .card-header .card-sub { font-size: 10px; color: var(--muted); margin-top: 3px; }
+
+  .pill {
+    font-size: 9px; font-weight: 600;
+    padding: 3px 10px; border-radius: 100px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    font-family: 'Michroma', sans-serif;
+  }
+  .pill-cyan  { background: var(--cyan-dim);  color: var(--cyan);  border: 1px solid rgba(59,214,198,0.2); }
+  .pill-red   { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(240,96,96,0.2); }
+  .pill-sky   { background: var(--sky-dim);   color: var(--sky);   border: 1px solid rgba(90,180,245,0.2); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; }
+  .legend span { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--muted); }
+  .ld { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* ── PROVEEDORES ── */
+  .prov-list { margin-top: 2px; }
+  .prov-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .prov-row:last-child { border-bottom: none; }
+  .prov-rank { font-size: 10px; font-weight: 600; color: var(--hint); width: 16px; text-align: right; flex-shrink: 0; font-family: 'DM Mono', monospace; }
+  .prov-name { font-size: 12px; color: var(--text); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .prov-bar-wrap { width: 90px; height: 3px; background: rgba(255,255,255,0.07); border-radius: 2px; flex-shrink: 0; }
+  .prov-bar { height: 100%; border-radius: 2px; background: var(--sky); }
+  .prov-val { font-size: 11px; font-weight: 500; color: var(--muted); width: 52px; text-align: right; font-family: 'DM Mono', monospace; flex-shrink: 0; }
+
+  /* ── FOOTER ── */
+  .footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 20px; border-top: 1px solid var(--border);
+    font-size: 10px; color: var(--hint); margin-top: 28px;
+    font-family: 'Michroma', sans-serif;
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+
+  canvas { display: block; }
+
+  /* dashboard hidden until loader finishes */
+  #dashboard { opacity: 0; transform: translateY(14px); }
+</style>
+</head>
+<body>
+
+<!-- ── SIA LOADER ── -->
+<script>
+  class SiaLoader extends HTMLElement {
+    constructor() {
+      super();
+      const shadow = this.attachShadow({ mode: 'open' });
+      shadow.innerHTML = `
+        <style>
+          @import url("https://fonts.googleapis.com/css2?family=Michroma&display=swap");
+          :host { position: fixed; inset: 0; z-index: 9999; }
+          .loading-page {
+            font-family: "Michroma", sans-serif;
+            position: fixed; inset: 0;
+            background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+            display: flex; flex-direction: column; gap: 1.5rem;
+            align-items: center; justify-content: center;
+          }
+          #svg {
+            height: 150px; width: 150px;
+            stroke: white; fill-opacity: 0; stroke-width: 3px;
+            stroke-dasharray: 4500;
+            animation: draw 3s ease forwards;
+          }
+          @keyframes draw { 0%{stroke-dashoffset:4500} 100%{stroke-dashoffset:0} }
+          .name-container { height: 30px; overflow: hidden; }
+          .logo-name {
+            color: #fff; font-size: 20px; letter-spacing: 12px;
+            text-transform: uppercase; margin-left: 20px; font-weight: bolder;
+            opacity: 0;
+          }
+        </style>
+        <div class="loading-page">
+          <svg id="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+            <path d="M160 221.5C160 152.2 216.2 96 285.5 96L432 96C449.7 96 464 110.3 464 128C464 145.7 449.7 160 432 160L285.5 160C251.5 160 224 187.5 224 221.5C224 252.5 247.1 278.7 277.9 282.5L370.1 294C432.9 301.9 480 355.2 480 418.5C480 487.8 423.8 544 354.5 544L208 544C190.3 544 176 529.7 176 512C176 494.3 190.3 480 208 480L354.5 480C388.5 480 416 452.5 416 418.5C416 387.5 392.9 361.3 362.1 357.5L269.9 346C207.1 338.1 160 284.8 160 221.5z"/>
+          </svg>
+          <div class="name-container">
+            <div class="logo-name" id="logoName">SIA LEASING</div>
+          </div>
+        </div>
+      `;
+    }
+
+    connectedCallback() {
+      document.body.style.overflow = 'hidden';
+
+      // Wait for GSAP to be available (it's loaded in <head> so should be ready)
+      const run = () => {
+        const loadingPage = this.shadowRoot.querySelector('.loading-page');
+        const logoName    = this.shadowRoot.querySelector('#logoName');
+        const dashboard   = document.getElementById('dashboard');
+
+        // Animate logo name in
+        gsap.to(logoName, { opacity: 1, y: 0, duration: 0.5, delay: 0.2,
+          onStart: () => { gsap.set(logoName, { y: 50 }); }
+        });
+
+        // Fade out loader, then reveal dashboard
+        gsap.to(loadingPage, {
+          opacity: 0, duration: 0.4, delay: 1.1,
+          onComplete: () => {
+            loadingPage.style.display = 'none';
+            document.body.style.overflow = '';
+            this.remove();
+            if (dashboard) {
+              gsap.to(dashboard, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' });
+            }
+          }
+        });
+      };
+
+      // GSAP already loaded synchronously, but defer one tick to be safe
+      if (typeof gsap !== 'undefined') {
+        requestAnimationFrame(run);
+      } else {
+        window.addEventListener('load', run, { once: true });
+      }
+    }
+  }
+  customElements.define('sia-loader', SiaLoader);
+</script>
+
+<sia-loader></sia-loader>
+
+<!-- ── DASHBOARD ── -->
+<div id="dashboard">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="header-eyebrow">SIA Lease, S.A. de C.V.</div>
+      <h1>Dashboard BBVA</h1>
+      <div class="sub">Posición de bancos &nbsp;·&nbsp; Enero – Mayo 2026</div>
+    </div>
+    <div class="badge">
+      <span class="dot"></span>
+      Saldo actual: $5,835,057
+    </div>
+  </div>
+
+  <p class="section-label">Resumen del período</p>
+  <div class="kpi-grid">
+    <div class="kpi t">
+      <div class="kpi-icon">↑</div>
+      <div class="kpi-label">Saldo actual</div>
+      <div class="kpi-value">$5.84M</div>
+      <div class="kpi-sub">Al 28 de mayo 2026</div>
+    </div>
+    <div class="kpi r">
+      <div class="kpi-icon">↓</div>
+      <div class="kpi-label">Total cargos</div>
+      <div class="kpi-value">$157.4M</div>
+      <div class="kpi-sub">1,559 movimientos</div>
+    </div>
+    <div class="kpi b">
+      <div class="kpi-icon">+</div>
+      <div class="kpi-label">Total abonos</div>
+      <div class="kpi-value">$162.6M</div>
+      <div class="kpi-sub">586 movimientos</div>
+    </div>
+    <div class="kpi a">
+      <div class="kpi-icon">≈</div>
+      <div class="kpi-label">Flujo neto</div>
+      <div class="kpi-value">+$5.2M</div>
+      <div class="kpi-sub">Abonos − Cargos</div>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="card-header">
+        <div>
+          <h3>Cargos vs abonos mensuales</h3>
+          <div class="card-sub">Millones MXN · Ene–May 2026</div>
+        </div>
+        <span class="pill pill-red">MXN</span>
+      </div>
+      <div class="legend">
+        <span><span class="ld" style="background:#f06060;"></span>Cargos</span>
+        <span><span class="ld" style="background:#3bd6c6;"></span>Abonos</span>
+      </div>
+      <div style="position:relative;height:220px;">
+        <canvas id="barChart" role="img" aria-label="Cargos y abonos por mes enero a mayo 2026"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="card-header">
+        <div>
+          <h3>Evolución del saldo mensual</h3>
+          <div class="card-sub">Millones MXN</div>
+        </div>
+        <span class="pill pill-cyan">Saldo</span>
+      </div>
+      <div style="position:relative;height:248px;">
+        <canvas id="lineChart" role="img" aria-label="Evolución del saldo mensual"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-row wide">
+    <div class="chart-card">
+      <div class="card-header">
+        <div>
+          <h3>Cargos por categoría</h3>
+          <div class="card-sub">Sub tipo · Millones MXN</div>
+        </div>
+        <span class="pill pill-sky">Top 6</span>
+      </div>
+      <div style="position:relative;height:240px;">
+        <canvas id="hbarChart" role="img" aria-label="Cargos por categoría de sub tipo"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="card-header">
+        <div>
+          <h3>Top 5 proveedores</h3>
+          <div class="card-sub">Por monto total de cargos</div>
+        </div>
+      </div>
+      <div class="prov-list" id="provList"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Fuente: BBVA · Posición bancaria 2026</span>
+    <span>Datos al 28 mayo 2026</span>
+  </div>
+
+</div><!-- /#dashboard -->
+
+<script>
+  const tc = 'rgba(232,240,244,0.36)';
+  const gc = 'rgba(255,255,255,0.05)';
+  const months = ['Ene','Feb','Mar','Abr','May'];
+  const scaleOpts = (axis) => ({
+    ticks: { color: tc, font: { size: 11, family: 'DM Sans' },
+      ...(axis === 'y' ? { callback: v => '$' + v + 'M' } : {})
+    },
+    grid: { color: gc },
+    border: { color: 'transparent' }
+  });
+
+  new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [
+        { label: 'Cargos', data: [43.2,25.0,32.4,33.4,23.5], backgroundColor: 'rgba(240,96,96,0.72)',  borderRadius: 4, borderSkipped: false },
+        { label: 'Abonos', data: [46.0,24.0,30.9,35.4,26.3], backgroundColor: 'rgba(59,214,198,0.72)', borderRadius: 4, borderSkipped: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' $' + c.parsed.y.toFixed(1) + 'M' }}},
+      scales: { x: scaleOpts('x'), y: scaleOpts('y') }
+    }
+  });
+
+  new Chart(document.getElementById('lineChart'), {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [{
+        label: 'Saldo', data: [3.44,2.48,0.98,2.94,5.84],
+        borderColor: '#3bd6c6', backgroundColor: 'rgba(59,214,198,0.07)',
+        tension: 0.4, fill: true,
+        pointRadius: 5, pointBackgroundColor: '#3bd6c6',
+        pointBorderColor: '#0f2027', pointBorderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' $' + c.parsed.y.toFixed(2) + 'M' }}},
+      scales: { x: scaleOpts('x'), y: { ...scaleOpts('y'), min: 0 } }
+    }
+  });
+
+  new Chart(document.getElementById('hbarChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Activo','Traspaso cuentas','Costo','Financiamiento','Gasto','Impuestos'],
+      datasets: [{ data: [86.9,35.7,17.6,6.1,5.0,3.8],
+        backgroundColor: ['#5ab4f5','#3bd6c6','#f5b942','#a78bfa','#f06060','#4a7a8a'],
+        borderRadius: 4, borderSkipped: false }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' $' + c.parsed.x.toFixed(1) + 'M' }}},
+      scales: {
+        y: { ticks: { color: tc, font: { size: 11, family: 'DM Sans' } }, grid: { display: false }, border: { color: 'transparent' } },
+        x: { ticks: { color: tc, font: { size: 11, family: 'DM Sans' }, callback: v => '$' + v + 'M' }, grid: { color: gc }, border: { color: 'transparent' } }
+      }
+    }
+  });
+
+  const provs = [
+    { name: 'Shinyu Automotriz SA de CV',    val: 27.6 },
+    { name: 'SIA Leasing Mifel',             val: 26.1 },
+    { name: 'Autos Globales SA de CV',       val: 14.4 },
+    { name: 'Jac Store Xalapa SA de CV',     val: 13.9 },
+    { name: 'Imperio Automotriz de Oriente', val: 10.4 },
+  ];
+  const maxVal = 27.6;
+  const list = document.getElementById('provList');
+  provs.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'prov-row';
+    row.innerHTML = `
+      <span class="prov-rank">${i + 1}</span>
+      <span class="prov-name">${p.name}</span>
+      <div class="prov-bar-wrap"><div class="prov-bar" style="width:${(p.val/maxVal*100).toFixed(0)}%"></div></div>
+      <span class="prov-val">$${p.val}M</span>
+    `;
+    list.appendChild(row);
+  });
+</script>
+</body>
+</html>
