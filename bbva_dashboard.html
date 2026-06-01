@@ -219,7 +219,7 @@
   canvas { display: block; }
 
   /* dashboard hidden until loader finishes */
-  #dashboard { opacity: 0; transform: translateY(14px); }
+  #dashboard { transform: translateY(14px); }
 </style>
 </head>
 <body>
@@ -245,7 +245,7 @@
             height: 150px; width: 150px;
             stroke: white; fill-opacity: 0; stroke-width: 3px;
             stroke-dasharray: 4500;
-            animation: draw 3s ease forwards;
+            animation: draw 4s ease forwards;
           }
           @keyframes draw { 0%{stroke-dashoffset:4500} 100%{stroke-dashoffset:0} }
           .name-container { height: 30px; overflow: hidden; }
