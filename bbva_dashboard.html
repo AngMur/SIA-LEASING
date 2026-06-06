@@ -11,633 +11,603 @@
   :root {
     --bg:        #0f2027;
     --card:      #1a3040;
+    --card2:     #162a38;
     --border:    rgba(255,255,255,0.07);
     --border-md: rgba(255,255,255,0.13);
     --text:      #e8f0f4;
     --muted:     rgba(232,240,244,0.48);
     --hint:      rgba(232,240,244,0.24);
-    --cyan:      #3bd6c6;
-    --cyan-dim:  rgba(59,214,198,0.12);
-    --red:       #f06060;
-    --red-dim:   rgba(240,96,96,0.12);
-    --sky:       #5ab4f5;
-    --sky-dim:   rgba(90,180,245,0.12);
-    --amber:     #f5b942;
-    --amber-dim: rgba(245,185,66,0.12);
-    --green:     #4ade80;
-    --green-dim: rgba(74,222,128,0.12);
-    --purple:    #a78bfa;
-    --radius:    12px;
-    --radius-sm: 8px;
+    --cyan:      #3bd6c6;  --cyan-dim:  rgba(59,214,198,0.12);
+    --red:       #f06060;  --red-dim:   rgba(240,96,96,0.12);
+    --sky:       #5ab4f5;  --sky-dim:   rgba(90,180,245,0.12);
+    --amber:     #f5b942;  --amber-dim: rgba(245,185,66,0.12);
+    --green:     #4ade80;  --green-dim: rgba(74,222,128,0.12);
+    --purple:    #a78bfa;  --purple-dim:rgba(167,139,250,0.12);
+    --radius: 12px; --radius-sm: 8px;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 32px 28px 56px;
-    line-height: 1.5;
-  }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:32px 28px 56px; line-height:1.5; }
 
   /* HEADER */
-  .header {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    margin-bottom: 32px; padding-bottom: 24px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-eyebrow {
-    font-family: 'Michroma', sans-serif;
-    font-size: 9px; letter-spacing: 0.18em;
-    color: var(--cyan); text-transform: uppercase; margin-bottom: 6px;
-  }
-  .header-left h1 {
-    font-family: 'Michroma', sans-serif;
-    font-size: 20px; font-weight: 400;
-    letter-spacing: 0.06em; text-transform: uppercase;
-  }
-  .header-left .sub { font-size: 12px; color: var(--muted); margin-top: 5px; }
-  .badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--cyan-dim); border: 1px solid rgba(59,214,198,0.22);
-    color: var(--cyan); font-size: 13px; font-weight: 500;
-    padding: 9px 18px; border-radius: 100px;
-    font-family: 'DM Mono', monospace;
-  }
-  .badge .dot {
-    width: 7px; height: 7px; border-radius: 50%; background: var(--cyan);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:18px; padding-bottom:22px; border-bottom:1px solid var(--border); }
+  .eyebrow { font-family:'Michroma',sans-serif; font-size:9px; letter-spacing:.18em; color:var(--cyan); text-transform:uppercase; margin-bottom:6px; }
+  .header h1 { font-family:'Michroma',sans-serif; font-size:20px; font-weight:400; letter-spacing:.06em; text-transform:uppercase; }
+  .header .sub { font-size:12px; color:var(--muted); margin-top:5px; }
+  .badge { display:inline-flex; align-items:center; gap:8px; background:var(--cyan-dim); border:1px solid rgba(59,214,198,.22); color:var(--cyan); font-size:12px; font-weight:500; padding:9px 18px; border-radius:100px; font-family:'DM Mono',monospace; white-space:nowrap; }
+  .badge .dot { width:7px; height:7px; border-radius:50%; background:var(--cyan); animation:pulse 2s ease-in-out infinite; }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-  /* SECTION LABEL */
-  .section-label {
-    font-family: 'Michroma', sans-serif;
-    font-size: 9px; letter-spacing: 0.16em;
-    color: var(--hint); text-transform: uppercase; margin-bottom: 12px;
-  }
-  .section-divider {
-    display: flex; align-items: center; gap: 12px; margin: 28px 0 14px;
-  }
-  .section-divider .label {
-    font-family: 'Michroma', sans-serif;
-    font-size: 9px; letter-spacing: 0.16em;
-    color: var(--hint); text-transform: uppercase; white-space: nowrap;
-  }
-  .section-divider .line { flex: 1; height: 1px; background: var(--border); }
-  .section-divider .pill-tag {
-    font-family: 'Michroma', sans-serif;
-    font-size: 8px; letter-spacing: 0.08em;
-    padding: 3px 10px; border-radius: 100px; text-transform: uppercase;
-  }
-  .ing-tag  { background: var(--cyan-dim);  color: var(--cyan);  border: 1px solid rgba(59,214,198,0.2); }
-  .egr-tag  { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(240,96,96,0.2); }
-  .saldo-tag{ background: var(--sky-dim);   color: var(--sky);   border: 1px solid rgba(90,180,245,0.2); }
+  /* BANK SELECTOR */
+  .bank-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+  .btab { font-family:'DM Mono',monospace; font-size:12px; padding:9px 17px; border-radius:100px; border:1px solid var(--border); background:var(--card2); color:var(--muted); cursor:pointer; transition:all .18s; }
+  .btab:hover { border-color:var(--border-md); color:var(--text); transform:translateY(-1px); }
+  .btab.active { background:var(--cyan-dim); border-color:rgba(59,214,198,.45); color:var(--cyan); }
+  .selnote { font-size:10px; color:var(--hint); margin-bottom:20px; font-family:'DM Mono',monospace; }
+
+  /* SECTION DIVIDERS */
+  .sdiv { display:flex; align-items:center; gap:12px; margin:24px 0 12px; }
+  .sdiv .slabel { font-family:'Michroma',sans-serif; font-size:9px; letter-spacing:.16em; color:var(--hint); text-transform:uppercase; white-space:nowrap; }
+  .sdiv .sline { flex:1; height:1px; background:var(--border); }
+  .stag { font-family:'Michroma',sans-serif; font-size:8px; letter-spacing:.06em; padding:3px 10px; border-radius:100px; text-transform:uppercase; }
+  .t-ing  { background:var(--cyan-dim);   color:var(--cyan);   border:1px solid rgba(59,214,198,.2); }
+  .t-egr  { background:var(--red-dim);    color:var(--red);    border:1px solid rgba(240,96,96,.2); }
+  .t-sald { background:var(--sky-dim);    color:var(--sky);    border:1px solid rgba(90,180,245,.2); }
+  .t-cob  { background:var(--amber-dim);  color:var(--amber);  border:1px solid rgba(245,185,66,.2); }
 
   /* KPI GRID */
-  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
-  .kpi-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 0; }
-  .kpi-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 0; }
+  .kpi-grid { display:grid; gap:10px; margin-bottom:14px; }
+  .g4 { grid-template-columns:repeat(4,1fr); }
+  .g3 { grid-template-columns:repeat(3,1fr); }
+  .kpi { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:15px 17px; position:relative; overflow:hidden; transition:border-color .2s,transform .2s; }
+  .kpi:hover { border-color:var(--border-md); transform:translateY(-2px); }
+  .kpi::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; }
+  .kpi.cyan::before   { background:var(--cyan); }
+  .kpi.red::before    { background:var(--red); }
+  .kpi.sky::before    { background:var(--sky); }
+  .kpi.amber::before  { background:var(--amber); }
+  .kpi.green::before  { background:var(--green); }
+  .kpi.purple::before { background:var(--purple); }
+  .kpi-label { font-size:10px; color:var(--muted); margin-bottom:4px; font-weight:500; letter-spacing:.03em; text-transform:uppercase; }
+  .kpi-value { font-size:20px; font-weight:600; letter-spacing:-.02em; font-family:'DM Mono',monospace; }
+  .kpi.cyan   .kpi-value { color:var(--cyan); }
+  .kpi.red    .kpi-value { color:var(--red); }
+  .kpi.sky    .kpi-value { color:var(--sky); }
+  .kpi.amber  .kpi-value { color:var(--amber); }
+  .kpi.green  .kpi-value { color:var(--green); }
+  .kpi.purple .kpi-value { color:var(--purple); }
+  .kpi-sub { font-size:10px; color:var(--hint); margin-top:3px; }
 
-  .kpi {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 16px 18px;
-    position: relative; overflow: hidden;
-    transition: border-color 0.25s, transform 0.2s;
+  /* CHART CARDS */
+  .row  { display:grid; gap:12px; margin-bottom:12px; }
+  .r2   { grid-template-columns:1fr 1fr; }
+  .r3   { grid-template-columns:1fr 1fr 1fr; }
+  .r-wide { grid-template-columns:1.6fr 1fr; }
+  .chart-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; transition:border-color .2s; }
+  .chart-card:hover { border-color:var(--border-md); }
+  .ch { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:12px; }
+  .ch h3 { font-size:12px; font-weight:500; }
+  .ch .cs { font-size:10px; color:var(--muted); margin-top:2px; }
+  .pill { font-size:8px; font-weight:600; padding:3px 9px; border-radius:100px; letter-spacing:.06em; text-transform:uppercase; font-family:'Michroma',sans-serif; white-space:nowrap; }
+  .p-cyan  { background:var(--cyan-dim);   color:var(--cyan);   border:1px solid rgba(59,214,198,.2); }
+  .p-red   { background:var(--red-dim);    color:var(--red);    border:1px solid rgba(240,96,96,.2); }
+  .p-sky   { background:var(--sky-dim);    color:var(--sky);    border:1px solid rgba(90,180,245,.2); }
+  .p-amber { background:var(--amber-dim);  color:var(--amber);  border:1px solid rgba(245,185,66,.2); }
+  .p-purple{ background:var(--purple-dim); color:var(--purple); border:1px solid rgba(167,139,250,.2); }
+
+  .legend { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
+  .legend span { display:flex; align-items:center; gap:4px; font-size:10px; color:var(--muted); }
+  .ld { width:9px; height:9px; border-radius:2px; flex-shrink:0; }
+
+  /* RUBROS BAR LIST */
+  .rlist { display:flex; flex-direction:column; gap:7px; }
+  .rrow  { display:flex; align-items:center; gap:9px; }
+  .rlabel{ font-size:11px; color:var(--text); width:165px; flex-shrink:0; }
+  .rbw   { flex:1; height:5px; background:rgba(255,255,255,.07); border-radius:3px; }
+  .rb    { height:100%; border-radius:3px; }
+  .rval  { font-size:11px; font-family:'DM Mono',monospace; color:var(--muted); width:58px; text-align:right; flex-shrink:0; }
+
+  /* HEATMAP */
+  .heatmap-wrap { overflow-x:auto; }
+  .heatmap { display:grid; grid-template-columns:28px repeat(5,1fr); gap:3px; font-size:10px; min-width:420px; }
+  .hm-month { font-family:'Michroma',sans-serif; font-size:8px; letter-spacing:.06em; color:var(--muted); text-align:center; padding:4px 0 6px; text-transform:uppercase; }
+  .hm-day { font-family:'DM Mono',monospace; font-size:9px; color:var(--hint); display:flex; align-items:center; justify-content:flex-end; padding-right:4px; }
+  .hm-cell {
+    border-radius:4px; height:18px; display:flex; align-items:center; justify-content:center;
+    font-family:'DM Mono',monospace; font-size:8px; cursor:default;
+    transition:transform .15s; position:relative;
   }
-  .kpi:hover { border-color: var(--border-md); transform: translateY(-2px); }
-  .kpi::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  .hm-cell:hover { transform:scale(1.15); z-index:10; }
+  .hm-cell .tooltip {
+    display:none; position:absolute; bottom:calc(100% + 4px); left:50%; transform:translateX(-50%);
+    background:#1a3040; border:1px solid var(--border-md); border-radius:6px;
+    padding:4px 8px; font-size:9px; color:var(--text); white-space:nowrap; z-index:20;
   }
-  .kpi.cyan::before  { background: var(--cyan); }
-  .kpi.red::before   { background: var(--red); }
-  .kpi.sky::before   { background: var(--sky); }
-  .kpi.amber::before { background: var(--amber); }
-  .kpi.green::before { background: var(--green); }
-  .kpi.purple::before{ background: var(--purple); }
+  .hm-cell:hover .tooltip { display:block; }
 
-  .kpi-label { font-size: 10px; color: var(--muted); margin-bottom: 4px; font-weight: 500; letter-spacing: 0.03em; text-transform: uppercase; }
-  .kpi-value { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; font-family: 'DM Mono', monospace; }
-  .kpi.cyan  .kpi-value { color: var(--cyan); }
-  .kpi.red   .kpi-value { color: var(--red); }
-  .kpi.sky   .kpi-value { color: var(--sky); }
-  .kpi.amber .kpi-value { color: var(--amber); }
-  .kpi.green .kpi-value { color: var(--green); }
-  .kpi.purple.kpi-value { color: var(--purple); }
-  .kpi-sub   { font-size: 10px; color: var(--hint); margin-top: 4px; }
-
-  /* CHARTS */
-  .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-  .charts-row.triple { grid-template-columns: 1fr 1fr 1fr; }
-  .charts-row.wide   { grid-template-columns: 1.6fr 1fr; }
-
-  .chart-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 18px 20px;
-    transition: border-color 0.25s;
-  }
-  .chart-card:hover { border-color: var(--border-md); }
-  .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
-  .card-header h3 { font-size: 12px; font-weight: 500; color: var(--text); }
-  .card-header .card-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
-  .pill {
-    font-size: 8px; font-weight: 600; padding: 3px 9px;
-    border-radius: 100px; letter-spacing: 0.06em; text-transform: uppercase;
-    font-family: 'Michroma', sans-serif; white-space: nowrap;
-  }
-  .pill-cyan  { background: var(--cyan-dim);  color: var(--cyan);  border: 1px solid rgba(59,214,198,0.2); }
-  .pill-red   { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(240,96,96,0.2); }
-  .pill-sky   { background: var(--sky-dim);   color: var(--sky);   border: 1px solid rgba(90,180,245,0.2); }
-  .pill-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,185,66,0.2); }
-
-  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
-  .legend span { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--muted); }
-  .ld { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
-
-  /* RUBROS BREAKDOWN */
-  .rubro-list { display: flex; flex-direction: column; gap: 7px; }
-  .rubro-row  { display: flex; align-items: center; gap: 10px; }
-  .rubro-label { font-size: 11px; color: var(--text); width: 160px; flex-shrink: 0; }
-  .rubro-bar-wrap { flex: 1; height: 5px; background: rgba(255,255,255,0.07); border-radius: 3px; }
-  .rubro-bar { height: 100%; border-radius: 3px; }
-  .rubro-val { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--muted); width: 60px; text-align: right; flex-shrink: 0; }
+  /* BANK SALDOS TABLE */
+  .bank-table { width:100%; border-collapse:collapse; font-size:11px; }
+  .bank-table th { font-family:'Michroma',sans-serif; font-size:8px; letter-spacing:.08em; color:var(--hint); text-transform:uppercase; padding:6px 10px; text-align:left; border-bottom:1px solid var(--border); }
+  .bank-table td { padding:8px 10px; border-bottom:1px solid rgba(255,255,255,.04); }
+  .bank-table tr:last-child td { border-bottom:none; }
+  .bank-table tr { cursor:pointer; transition:background .15s; }
+  .bank-table tbody tr:hover { background:rgba(255,255,255,.03); }
+  .bank-table tr.sel { background:var(--cyan-dim); }
+  .bank-table .bank-name { font-weight:500; color:var(--text); }
+  .bank-table .mono { font-family:'DM Mono',monospace; }
+  .bank-table .pos { color:var(--cyan); }
+  .bank-table .bar-wrap { width:80px; height:4px; background:rgba(255,255,255,.07); border-radius:2px; display:inline-block; vertical-align:middle; }
+  .bank-table .bar-fill { height:100%; border-radius:2px; }
 
   /* FOOTER */
-  .footer {
-    display: flex; align-items: center; justify-content: space-between;
-    padding-top: 18px; border-top: 1px solid var(--border);
-    font-size: 10px; color: var(--hint); margin-top: 24px;
-    font-family: 'Michroma', sans-serif; letter-spacing: 0.06em; text-transform: uppercase;
-  }
-  canvas { display: block; }
-  #dashboard { opacity: 0; transform: translateY(14px); }
+  .footer { display:flex; align-items:center; justify-content:space-between; padding-top:16px; border-top:1px solid var(--border); font-size:10px; color:var(--hint); margin-top:22px; font-family:'Michroma',sans-serif; letter-spacing:.06em; text-transform:uppercase; gap:14px; flex-wrap:wrap; }
+  canvas { display:block; }
+  #dashboard { opacity:0; transform:translateY(14px); }
 </style>
 </head>
 <body>
 
+<!-- LOADER -->
 <script>
 class SiaLoader extends HTMLElement {
   constructor() {
     super();
-    const shadow = this.attachShadow({ mode: 'open' });
-    shadow.innerHTML = `
+    const s = this.attachShadow({mode:'open'});
+    s.innerHTML = `
       <style>
         @import url("https://fonts.googleapis.com/css2?family=Michroma&display=swap");
-        :host { position: fixed; inset: 0; z-index: 9999; }
-        .loading-page {
-          font-family: "Michroma", sans-serif; position: fixed; inset: 0;
-          background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
-          display: flex; flex-direction: column; gap: 1.5rem;
-          align-items: center; justify-content: center;
-        }
-        #svg {
-          height: 150px; width: 150px; stroke: white; fill-opacity: 0;
-          stroke-width: 3px; stroke-dasharray: 4500;
-          animation: draw 8s ease;
-        }
-        @keyframes draw { 0%{stroke-dashoffset:4500} 100%{stroke-dashoffset:0} }
-        .name-container { height: 30px; overflow: hidden; }
-        .logo-name {
-          color: #fff; font-size: 20px; letter-spacing: 12px;
-          text-transform: uppercase; margin-left: 20px; font-weight: bolder; opacity: 0;
-        }
+        :host{position:fixed;inset:0;z-index:9999;}
+        .lp{font-family:"Michroma",sans-serif;position:fixed;inset:0;background:linear-gradient(to right,#2c5364,#203a43,#0f2027);display:flex;flex-direction:column;gap:1.5rem;align-items:center;justify-content:center;}
+        #svg{height:150px;width:150px;stroke:white;fill-opacity:0;stroke-width:3px;stroke-dasharray:4500;animation:draw 8s ease;}
+        @keyframes draw{0%{stroke-dashoffset:4500}100%{stroke-dashoffset:0}}
+        .nc{height:30px;overflow:hidden;}
+        .ln{color:#fff;font-size:20px;letter-spacing:12px;text-transform:uppercase;margin-left:20px;font-weight:bolder;opacity:0;}
       </style>
-      <div class="loading-page">
+      <div class="lp">
         <svg id="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
           <path d="M160 221.5C160 152.2 216.2 96 285.5 96L432 96C449.7 96 464 110.3 464 128C464 145.7 449.7 160 432 160L285.5 160C251.5 160 224 187.5 224 221.5C224 252.5 247.1 278.7 277.9 282.5L370.1 294C432.9 301.9 480 355.2 480 418.5C480 487.8 423.8 544 354.5 544L208 544C190.3 544 176 529.7 176 512C176 494.3 190.3 480 208 480L354.5 480C388.5 480 416 452.5 416 418.5C416 387.5 392.9 361.3 362.1 357.5L269.9 346C207.1 338.1 160 284.8 160 221.5z"/>
         </svg>
-        <div class="name-container"><div class="logo-name" id="logoName">SIA LEASING</div></div>
-      </div>
-    `;
+        <div class="nc"><div class="ln" id="ln">SIA LEASING</div></div>
+      </div>`;
   }
   connectedCallback() {
-    document.body.style.overflow = 'hidden';
-    const revealDashboard = () => {
-      const d = document.getElementById('dashboard');
-      if (!d) return;
-      d.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-      d.style.opacity = '1'; d.style.transform = 'translateY(0)';
-      document.body.style.overflow = '';
+    document.body.style.overflow='hidden';
+    const reveal = () => {
+      const d=document.getElementById('dashboard'); if(!d)return;
+      d.style.transition='opacity .8s ease,transform .8s ease';
+      d.style.opacity='1'; d.style.transform='translateY(0)';
+      document.body.style.overflow='';
     };
-    const fallbackTimer = setTimeout(revealDashboard, 5500);
+    const fb = setTimeout(reveal, 5500);
     const run = () => {
-      const page     = this.shadowRoot.querySelector('.loading-page');
-      const logoName = this.shadowRoot.querySelector('#logoName');
-      gsap.to(logoName, { opacity:1, y:0, duration:2, delay:0.5, onStart:()=>{ gsap.set(logoName,{y:50}); }});
-      gsap.to(page, { opacity:0, duration:1.5, delay:3.5, onComplete:()=>{
-        clearTimeout(fallbackTimer);
-        page.style.display = 'none';
-        this.remove();
-        revealDashboard();
+      const page=this.shadowRoot.querySelector('.lp'), ln=this.shadowRoot.querySelector('#ln');
+      gsap.to(ln,{opacity:1,y:0,duration:2,delay:.5,onStart:()=>gsap.set(ln,{y:50})});
+      gsap.to(page,{opacity:0,duration:1.5,delay:3.5,onComplete:()=>{
+        clearTimeout(fb); page.style.display='none'; this.remove(); reveal();
       }});
     };
-    typeof gsap !== 'undefined' ? requestAnimationFrame(run) : (clearTimeout(fallbackTimer), revealDashboard());
+    typeof gsap!=='undefined' ? requestAnimationFrame(run) : (clearTimeout(fb), reveal());
   }
 }
 customElements.define('sia-loader', SiaLoader);
 </script>
 <sia-loader></sia-loader>
 
+<!-- DASHBOARD -->
 <div id="dashboard">
 
-  <!-- HEADER -->
   <div class="header">
-    <div class="header-left">
-      <div class="header-eyebrow">SIA Lease, S.A. de C.V.</div>
+    <div>
+      <div class="eyebrow">SIA Lease, S.A. de C.V.</div>
       <h1>Dashboard Financiero</h1>
-      <div class="sub">Posición de bancos · BBVA + BANAMEX · Enero – Mayo 2026</div>
+      <div class="sub" id="hdrSub">Todos los bancos · Enero – Mayo 2026</div>
     </div>
-    <div class="badge"><span class="dot"></span>Saldo BBVA: $5,835,057</div>
+    <div class="badge"><span class="dot"></span><span id="hdrBadge">Saldo: $14.8M</span></div>
   </div>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- INGRESOS                               -->
-  <!-- ═══════════════════════════════════════ -->
-  <div class="section-divider">
-    <span class="label">Ingresos</span>
-    <span class="line"></span>
-    <span class="pill-tag ing-tag">Abonos por rubro</span>
-  </div>
+  <!-- BANK SELECTOR -->
+  <div class="bank-tabs" id="bankTabs"></div>
+  <div class="selnote">Selecciona un banco para analizarlo por separado · "Todos" muestra la posición consolidada</div>
 
-  <!-- KPIs ingresos -->
-  <div class="kpi-grid" style="margin-bottom:16px;">
-    <div class="kpi cyan">
-      <div class="kpi-label">Total ingresos (acum.)</div>
-      <div class="kpi-value">$162.6M</div>
-      <div class="kpi-sub">Todos los bancos · Ene–May</div>
-    </div>
-    <div class="kpi cyan">
-      <div class="kpi-label">Cobranza total</div>
-      <div class="kpi-value">$72.5M</div>
-      <div class="kpi-sub">Rentas, iniciales, otros</div>
-    </div>
-    <div class="kpi cyan">
-      <div class="kpi-label">Remanentes</div>
-      <div class="kpi-value">$14.5M</div>
-      <div class="kpi-sub">Cosecha de rentas</div>
-    </div>
-    <div class="kpi sky">
-      <div class="kpi-label">Traspasos recibidos</div>
-      <div class="kpi-value">$39.5M</div>
-      <div class="kpi-sub">Desde otros bancos</div>
-    </div>
-  </div>
+  <!-- POSICIÓN BANCARIA -->
+  <div class="sdiv"><span class="slabel">Posición bancaria</span><span class="sline"></span><span class="stag t-sald" id="tagBank">Vista consolidada</span></div>
 
-  <!-- Ingresos chart row -->
-  <div class="charts-row wide" style="margin-bottom:12px;">
-
-    <!-- Gráfica ingresos por rubro mensual -->
+  <div class="row r2" style="margin-bottom:14px;">
     <div class="chart-card">
-      <div class="card-header">
-        <div>
-          <h3>Ingresos por rubro — mensual</h3>
-          <div class="card-sub">Millones MXN · BBVA + BANAMEX</div>
-        </div>
-        <span class="pill pill-cyan">Ingresos</span>
-      </div>
-      <div class="legend">
-        <span><span class="ld" style="background:#3bd6c6;"></span>Cobranza</span>
-        <span><span class="ld" style="background:#5ab4f5;"></span>Remanentes</span>
-        <span><span class="ld" style="background:#a78bfa;"></span>Financiero</span>
-        <span><span class="ld" style="background:#f5b942;"></span>Traspasos</span>
-      </div>
-      <div style="position:relative;height:230px;">
-        <canvas id="ingChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Desglose rubros de cobranza -->
-    <div class="chart-card">
-      <div class="card-header">
-        <div>
-          <h3>Desglose cobranza</h3>
-          <div class="card-sub">Subtipo · acumulado Ene–May</div>
-        </div>
-        <span class="pill pill-cyan">Rubros</span>
-      </div>
-      <div style="position:relative;height:180px;margin-bottom:18px;">
-        <canvas id="cobChart"></canvas>
-      </div>
-      <!-- Mini rubros list -->
-      <div class="rubro-list" id="cobList"></div>
-    </div>
-
-  </div>
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- EGRESOS                                -->
-  <!-- ═══════════════════════════════════════ -->
-  <div class="section-divider">
-    <span class="label">Egresos</span>
-    <span class="line"></span>
-    <span class="pill-tag egr-tag">Cargos por rubro</span>
-  </div>
-
-  <!-- KPIs egresos -->
-  <div class="kpi-grid" style="margin-bottom:16px;">
-    <div class="kpi red">
-      <div class="kpi-label">Total egresos (acum.)</div>
-      <div class="kpi-value">$157.4M</div>
-      <div class="kpi-sub">Todos los rubros · Ene–May</div>
-    </div>
-    <div class="kpi red">
-      <div class="kpi-label">Pago de activos</div>
-      <div class="kpi-value">$84.5M</div>
-      <div class="kpi-sub">Principal egreso operativo</div>
-    </div>
-    <div class="kpi amber">
-      <div class="kpi-label">Costo operativo</div>
-      <div class="kpi-value">$17.6M</div>
-      <div class="kpi-sub">Seguros, gestión, servicio</div>
-    </div>
-    <div class="kpi amber">
-      <div class="kpi-label">Gasto + Comisiones</div>
-      <div class="kpi-value">$10.2M</div>
-      <div class="kpi-sub">Admin + comisiones bancarias</div>
-    </div>
-  </div>
-
-  <!-- Egresos charts -->
-  <div class="charts-row wide" style="margin-bottom:12px;">
-
-    <!-- Egresos por rubro mensual -->
-    <div class="chart-card">
-      <div class="card-header">
-        <div>
-          <h3>Egresos por rubro — mensual</h3>
-          <div class="card-sub">Millones MXN · sin traspasos internos</div>
-        </div>
-        <span class="pill pill-red">Egresos</span>
-      </div>
-      <div class="legend">
-        <span><span class="ld" style="background:#f06060;"></span>Pago activos</span>
-        <span><span class="ld" style="background:#f5b942;"></span>Costo</span>
-        <span><span class="ld" style="background:#a78bfa;"></span>Gasto admin</span>
-        <span><span class="ld" style="background:#5ab4f5;"></span>Financiamiento</span>
-        <span><span class="ld" style="background:#64748b;"></span>Impuestos</span>
-      </div>
-      <div style="position:relative;height:230px;">
-        <canvas id="egrChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Proporción egresos total -->
-    <div class="chart-card">
-      <div class="card-header">
-        <div>
-          <h3>Composición de egresos</h3>
-          <div class="card-sub">% del total acumulado</div>
-        </div>
-        <span class="pill pill-red">Proporción</span>
-      </div>
-      <div style="position:relative;height:200px;margin-bottom:14px;">
-        <canvas id="donutChart"></canvas>
-      </div>
-      <div class="rubro-list" id="egrList"></div>
-    </div>
-
-  </div>
-
-  <!-- ═══════════════════════════════════════ -->
-  <!-- SALDO Y FLUJO                          -->
-  <!-- ═══════════════════════════════════════ -->
-  <div class="section-divider">
-    <span class="label">Saldo y flujo neto</span>
-    <span class="line"></span>
-    <span class="pill-tag saldo-tag">Liquidez</span>
-  </div>
-
-  <div class="charts-row triple">
-    <!-- Saldo mensual -->
-    <div class="chart-card">
-      <div class="card-header">
-        <div><h3>Evolución del saldo BBVA</h3><div class="card-sub">Millones MXN</div></div>
-        <span class="pill pill-sky">Saldo</span>
-      </div>
-      <div style="position:relative;height:190px;">
-        <canvas id="saldoChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Flujo neto mensual -->
-    <div class="chart-card">
-      <div class="card-header">
-        <div><h3>Flujo neto mensual</h3><div class="card-sub">Ingresos − Egresos · Millones MXN</div></div>
-        <span class="pill pill-cyan">Neto</span>
-      </div>
-      <div style="position:relative;height:190px;">
-        <canvas id="flujChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Ingresos vs egresos totales -->
-    <div class="chart-card">
-      <div class="card-header">
-        <div><h3>Ingresos vs Egresos</h3><div class="card-sub">Comparativa mensual</div></div>
-        <span class="pill pill-amber">VS</span>
+      <div class="ch">
+        <div><h3 id="consTitle">Ingresos vs Egresos</h3><div class="cs" id="consSub">Millones MXN</div></div>
+        <span class="pill p-sky">Mensual</span>
       </div>
       <div class="legend">
         <span><span class="ld" style="background:#3bd6c6;"></span>Ingresos</span>
         <span><span class="ld" style="background:#f06060;"></span>Egresos</span>
       </div>
-      <div style="position:relative;height:170px;">
-        <canvas id="vsChart"></canvas>
+      <div style="position:relative;height:210px;"><canvas id="consChart"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="ch">
+        <div><h3>Saldo por banco</h3><div class="cs">Último saldo · clic para analizar ese banco</div></div>
+        <span class="pill p-sky">Comparativa</span>
       </div>
+      <div style="position:relative;height:180px;margin-bottom:14px;"><canvas id="bankChart"></canvas></div>
+      <table class="bank-table">
+        <thead><tr><th>Banco</th><th>Saldo</th><th>Proporción</th></tr></thead>
+        <tbody id="bankRows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- INGRESOS -->
+  <div class="sdiv"><span class="slabel">Ingresos</span><span class="sline"></span><span class="stag t-ing">Abonos por rubro</span></div>
+
+  <div class="kpi-grid g4">
+    <div class="kpi cyan"><div class="kpi-label">Total ingresos (acum.)</div><div class="kpi-value" id="kpiTotalIng">—</div><div class="kpi-sub" id="kpiTotalIngSub">Ene–May</div></div>
+    <div class="kpi cyan"><div class="kpi-label">Cobranza total</div><div class="kpi-value" id="kpiCob">—</div><div class="kpi-sub">IDA + IDC + IDZ + s/clasif.</div></div>
+    <div class="kpi sky"><div class="kpi-label">Cosecha de rentas</div><div class="kpi-value" id="kpiCosecha">—</div><div class="kpi-sub">Recaudación de rentas</div></div>
+    <div class="kpi sky"><div class="kpi-label">Traspasos recibidos</div><div class="kpi-value" id="kpiTrasp">—</div><div class="kpi-sub">Desde otros bancos</div></div>
+  </div>
+
+  <div class="row r-wide">
+    <div class="chart-card">
+      <div class="ch">
+        <div><h3>Ingresos por rubro — mensual</h3><div class="cs">Millones MXN · apilado</div></div>
+        <span class="pill p-cyan">Ingresos</span>
+      </div>
+      <div class="legend" id="ingLegend"></div>
+      <div style="position:relative;height:230px;"><canvas id="ingChart"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="ch">
+        <div><h3>Cobranza por línea de negocio</h3><div class="cs">IDA · IDC · IDZ · acumulado</div></div>
+        <span class="pill p-amber">Rubros</span>
+      </div>
+      <div style="position:relative;height:165px;margin-bottom:14px;"><canvas id="cobChart"></canvas></div>
+      <div class="rlist" id="cobList"></div>
+    </div>
+  </div>
+
+  <!-- HEATMAP / SEMÁFORO -->
+  <div class="sdiv"><span class="slabel">Días de mayor cobranza</span><span class="sline"></span><span class="stag t-cob">Semáforo diario</span></div>
+
+  <div class="chart-card" style="margin-bottom:12px;">
+    <div class="ch">
+      <div><h3>Semáforo de cobranza — día del mes</h3><div class="cs" id="heatSub">Monto recibido por día · Millones MXN</div></div>
+      <span class="pill p-amber">Cobranza diaria</span>
+    </div>
+    <div class="heatmap-wrap"><div class="heatmap" id="heatmap"></div></div>
+    <div style="display:flex;align-items:center;gap:6px;margin-top:10px;font-size:10px;color:var(--muted);">
+      <span>Sin cobranza</span>
+      <div style="display:flex;gap:2px;">
+        <div style="width:14px;height:14px;border-radius:3px;background:rgba(59,214,198,0.08);"></div>
+        <div style="width:14px;height:14px;border-radius:3px;background:rgba(59,214,198,0.25);"></div>
+        <div style="width:14px;height:14px;border-radius:3px;background:rgba(59,214,198,0.45);"></div>
+        <div style="width:14px;height:14px;border-radius:3px;background:rgba(59,214,198,0.70);"></div>
+        <div style="width:14px;height:14px;border-radius:3px;background:rgba(59,214,198,0.95);"></div>
+      </div>
+      <span>Mayor cobranza</span>
+    </div>
+  </div>
+
+  <!-- EGRESOS -->
+  <div class="sdiv"><span class="slabel">Egresos</span><span class="sline"></span><span class="stag t-egr">Cargos por rubro</span></div>
+
+  <div class="kpi-grid g4">
+    <div class="kpi red"><div class="kpi-label">Total egresos (acum.)</div><div class="kpi-value" id="kpiTotalEgr">—</div><div class="kpi-sub">Ene–May</div></div>
+    <div class="kpi red"><div class="kpi-label">Pago de activos</div><div class="kpi-value" id="kpiPagoAct">—</div><div class="kpi-sub">Principal egreso operativo</div></div>
+    <div class="kpi amber"><div class="kpi-label">Costo</div><div class="kpi-value" id="kpiCosto">—</div><div class="kpi-sub">Operación y servicio</div></div>
+    <div class="kpi amber"><div class="kpi-label">Gasto + Comisiones</div><div class="kpi-value" id="kpiGastoCom">—</div><div class="kpi-sub">Admin + comisiones bancarias</div></div>
+  </div>
+
+  <div class="row r-wide">
+    <div class="chart-card">
+      <div class="ch">
+        <div><h3>Egresos por rubro — mensual</h3><div class="cs">Millones MXN · sin traspasos internos</div></div>
+        <span class="pill p-red">Egresos</span>
+      </div>
+      <div class="legend" id="egrLegend"></div>
+      <div style="position:relative;height:230px;"><canvas id="egrChart"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="ch">
+        <div><h3>Composición egresos</h3><div class="cs">% del total acumulado</div></div>
+        <span class="pill p-red">Proporción</span>
+      </div>
+      <div style="position:relative;height:180px;margin-bottom:12px;"><canvas id="donutChart"></canvas></div>
+      <div class="rlist" id="egrList"></div>
+    </div>
+  </div>
+
+  <!-- SALDO Y FLUJO -->
+  <div class="sdiv"><span class="slabel">Saldo y flujo neto</span><span class="sline"></span><span class="stag t-sald">Liquidez</span></div>
+
+  <div class="row r2">
+    <div class="chart-card">
+      <div class="ch"><div><h3>Saldo mensual</h3><div class="cs">Millones MXN</div></div><span class="pill p-sky">Saldo</span></div>
+      <div style="position:relative;height:200px;"><canvas id="saldoChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="ch"><div><h3>Flujo neto mensual</h3><div class="cs">Ingresos − Egresos</div></div><span class="pill p-cyan">Neto</span></div>
+      <div style="position:relative;height:200px;"><canvas id="flujChart"></canvas></div>
     </div>
   </div>
 
   <div class="footer">
-    <span>Fuente: BBVA · BANAMEX · Posición bancaria 2026</span>
+    <span id="footSrc">Fuente: Posición bancaria 2026 · BBVA detalle real</span>
     <span>Datos al 28 mayo 2026</span>
   </div>
 
 </div><!-- /#dashboard -->
 
 <script>
-const tc = 'rgba(232,240,244,0.35)';
-const gc = 'rgba(255,255,255,0.05)';
+/* ════════════════════════════════════════════════════════════════
+   MODELO DE DATOS POR BANCO
+   ─ BBVA = detalle real (de la posición que ya teníamos)
+   ─ MIFEL / BANAMEX / USD: series mensuales estimadas a partir del
+     consolidado real; los rubros se modelan escalando el perfil de
+     BBVA al volumen de cada banco.
+   ►► REEMPLAZAR con los datos reales de "Posición 2025 RET.xlsx"
+      cuando estén disponibles por banco.
+   ════════════════════════════════════════════════════════════════ */
 const months = ['Ene','Feb','Mar','Abr','May'];
+const sum = a => +a.reduce((s,v)=>s+v,0).toFixed(2);
 
-const scX = { ticks:{color:tc,font:{size:10,family:'DM Sans'}}, grid:{color:gc}, border:{color:'transparent'} };
-const scY = { ticks:{color:tc,font:{size:10,family:'DM Sans'},callback:v=>'$'+v+'M'}, grid:{color:gc}, border:{color:'transparent'} };
-const noLeg = { display:false };
-const tip = (label) => ({ callbacks:{ label: c => ` ${label}: $${(c.parsed.y??c.parsed.x).toFixed(1)}M` }});
+const ING_COLORS = {
+  'Cobranza':'#3bd6c6','Cosecha de rentas':'#5ab4f5','Iniciales':'#4ade80',
+  'Otros servicios':'#f5b942','Valores residuales':'#a78bfa','Traspasos':'#94a3b8','Préstamos':'#f472b6'
+};
+const EGR_COLORS = {
+  'Pago de activos':'#f06060','Costo':'#f5b942','Gasto':'#a78bfa','Comisiones bancarias':'#5ab4f5'
+};
+const COB_COLORS = {
+  'IDA – Arrendamiento':'#3bd6c6','IDC – Movilidad Chedraui':'#5ab4f5','IDZ – Movilidad':'#a78bfa','Sin clasificar':'#64748b'
+};
 
-// ── 1. INGRESOS POR RUBRO MENSUAL ──
-new Chart(document.getElementById('ingChart'), {
-  type: 'bar',
-  data: {
-    labels: months,
-    datasets: [
-      { label:'Cobranza',   data:[10.99,13.57,15.77,17.01,15.17], backgroundColor:'rgba(59,214,198,0.75)',  borderRadius:3, borderSkipped:false },
-      { label:'Remanentes', data:[3.11, 4.64, 2.35, 2.27, 2.12],  backgroundColor:'rgba(90,180,245,0.75)',  borderRadius:3, borderSkipped:false },
-      { label:'Financiero', data:[18.75,0,    0,    3.00, 6.50],   backgroundColor:'rgba(167,139,250,0.75)', borderRadius:3, borderSkipped:false },
-      { label:'Traspasos',  data:[13.20,6.26, 13.54,4.99, 1.48],  backgroundColor:'rgba(245,185,66,0.75)',  borderRadius:3, borderSkipped:false },
-    ]
+/* ── BBVA: DATOS REALES ── */
+const BBVA = {
+  saldoSerie:[3.44,2.48,0.98,2.94,5.84], saldoActual:5.84,
+  ingMensual:[46.01,24.02,30.89,35.36,26.35],
+  egrMensual:[43.17,24.98,32.39,33.40,23.46],
+  ingRubros:{
+    'Cobranza':          [10.99,13.57,15.77,17.01,15.17],
+    'Cosecha de rentas': [3.11,4.64,2.35,2.27,2.12],
+    'Iniciales':         [1.20,0.80,1.00,1.10,0.90],   /* estimado – falta dato real */
+    'Otros servicios':   [0.60,0.50,0.70,0.60,0.40],   /* estimado – falta dato real */
+    'Valores residuales':[0.90,0.40,0.60,0.80,0.30],   /* estimado – falta dato real */
+    'Traspasos':         [13.20,6.26,13.54,4.99,1.48],
+    'Préstamos':         [18.75,0,0,3.00,6.50],
   },
-  options:{
-    responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{display:false}, tooltip:{mode:'index',intersect:false,
-      callbacks:{label:c=>` ${c.dataset.label}: $${c.parsed.y.toFixed(1)}M`}} },
-    scales:{ x:scX, y:scY }
-  }
-});
-
-// ── 2. DESGLOSE COBRANZA (donut + lista) ──
-// IDA = Iniciales / IDC = Cosecha rentas / IDZ = Valor residual + otros servicios
-const cobData = [
-  { label:'IDC – Cosecha de rentas', val:4.27, color:'#3bd6c6' },
-  { label:'IDA – Iniciales',         val:2.64, color:'#5ab4f5' },
-  { label:'IDZ – Valor residual',    val:1.21, color:'#a78bfa' },
-  { label:'Traspasos cobranza',      val:0.30, color:'#f5b942' },
-  { label:'Otros servicios',         val:0.17, color:'#f06060' },
-];
-const cobMax = Math.max(...cobData.map(d=>d.val));
-
-new Chart(document.getElementById('cobChart'), {
-  type: 'doughnut',
-  data: {
-    labels: cobData.map(d=>d.label),
-    datasets:[{ data:cobData.map(d=>d.val), backgroundColor:cobData.map(d=>d.color),
-      borderColor:'#1a3040', borderWidth:2, hoverOffset:6 }]
+  egrRubros:{
+    'Pago de activos':     [15.84,14.49,20.49,21.70,12.03],
+    'Costo':               [2.32,4.72,2.38,2.29,6.04],
+    'Gasto':               [2.43,2.49,1.89,0.95,1.01],  /* admin + impuestos */
+    'Comisiones bancarias':[1.40,0.78,0.54,0.21,0.46],
   },
-  options:{
-    responsive:true, maintainAspectRatio:false, cutout:'65%',
-    plugins:{ legend:{display:false},
-      tooltip:{callbacks:{label:c=>` $${c.parsed.toFixed(2)}M`}} }
-  }
-});
-
-const cobList = document.getElementById('cobList');
-cobData.forEach(d=>{
-  cobList.innerHTML += `
-    <div class="rubro-row">
-      <span class="rubro-label">${d.label}</span>
-      <div class="rubro-bar-wrap"><div class="rubro-bar" style="width:${(d.val/cobMax*100).toFixed(0)}%;background:${d.color};"></div></div>
-      <span class="rubro-val">$${d.val.toFixed(2)}M</span>
-    </div>`;
-});
-
-// ── 3. EGRESOS POR RUBRO MENSUAL ──
-new Chart(document.getElementById('egrChart'), {
-  type: 'bar',
-  data: {
-    labels: months,
-    datasets: [
-      { label:'Pago activos',    data:[15.84,14.49,20.49,21.70,12.03], backgroundColor:'rgba(240,96,96,0.80)',  borderRadius:3, borderSkipped:false },
-      { label:'Costo operativo', data:[2.32, 4.72, 2.38, 2.29, 6.04],  backgroundColor:'rgba(245,185,66,0.80)', borderRadius:3, borderSkipped:false },
-      { label:'Gasto admin',     data:[0.83, 0.99, 1.30, 0.87, 1.01],  backgroundColor:'rgba(167,139,250,0.80)',borderRadius:3, borderSkipped:false },
-      { label:'Financiamiento',  data:[1.40, 0.78, 0.54, 0.21, 0.46],  backgroundColor:'rgba(90,180,245,0.80)', borderRadius:3, borderSkipped:false },
-      { label:'Impuestos',       data:[1.60, 1.50, 0.59, 0.08, 0.00],  backgroundColor:'rgba(100,116,139,0.80)',borderRadius:3, borderSkipped:false },
-    ]
+  cobranza:{'IDA – Arrendamiento':2.64,'IDC – Movilidad Chedraui':4.27,'IDZ – Movilidad':1.21,'Sin clasificar':62.30},
+  heatmap:{
+    'Ene':[0.02,0.13,0,0.02,0.04,0,0,0.02,0.17,0,0.01,2.39,0.03,1.15,0.01,1.19,0,0,0.55,0.02,0.11,0.13,0.08,0,0,2.90,0.05,0.46,0.51,0.92,0],
+    'Feb':[0,0,0.09,0,0,0.06,0,0,0.09,1.58,0.01,3.31,0.75,0,0.01,2.69,0.05,0.24,0.09,0.25,0.01,0,3.30,0.04,0.36,0.03,0.12,0.02,0,0,0],
+    'Mar':[0,2.00,0.05,0,0.01,0.12,0,0,0.89,0.08,0.02,0,1.06,0,0,0.02,4.34,0.55,0.02,0.11,0,0,2.16,0.03,0.02,0.14,0.41,0,0,1.54,1.44],
+    'Abr':[0.05,0,0,0,0,0.01,0.73,0.17,0.34,2.50,0.06,0,2.44,0.42,0.74,0,0.13,0,0,5.30,0.11,0.05,0.51,0,0,0,2.11,0.52,0.07,0.66,0],
+    'May':[0.02,0,0.01,1.27,1.89,0.23,0.39,0.39,0,0,0.34,0.36,0.13,0.23,0,0.02,0,1.84,3.06,0.02,0.01,0.47,0,0,3.80,0.03,0,0,0,0,0],
   },
-  options:{
-    responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{display:false}, tooltip:{mode:'index',intersect:false,
-      callbacks:{label:c=>` ${c.dataset.label}: $${c.parsed.y.toFixed(1)}M`}} },
-    scales:{ x:scX, y:scY }
+};
+
+/* ── Deriva un banco escalando el perfil de BBVA ── */
+const scale = (a,f,dec=2)=>a.map(v=>+(v*f).toFixed(dec));
+function deriveBank(base, ingM, egrM, saldoSerie){
+  const fIng = sum(ingM)/sum(base.ingMensual);
+  const fEgr = sum(egrM)/sum(base.egrMensual);
+  const ingRubros={}, egrRubros={}, cobranza={}, heatmap={};
+  for(const k in base.ingRubros) ingRubros[k]=scale(base.ingRubros[k],fIng);
+  for(const k in base.egrRubros) egrRubros[k]=scale(base.egrRubros[k],fEgr);
+  for(const k in base.cobranza)  cobranza[k]=+(base.cobranza[k]*fIng).toFixed(2);
+  for(const m in base.heatmap)   heatmap[m]=scale(base.heatmap[m],fIng,3);
+  return {ingMensual:ingM,egrMensual:egrM,saldoSerie,saldoActual:saldoSerie[saldoSerie.length-1],
+          ingRubros,egrRubros,cobranza,heatmap};
+}
+
+const DATA = {
+  'BBVA': BBVA,
+  'MIFEL 0509': deriveBank(BBVA,[17.70,8.43,9.22,7.19,3.00],[17.65,8.04,9.62,7.18,2.93],[3.10,3.50,3.80,4.05,4.27]),
+  'MIFEL 0479': deriveBank(BBVA,[17.70,8.43,9.22,7.19,3.00],[17.65,8.04,9.62,7.18,2.93],[3.20,3.60,3.95,4.30,4.53]),
+  'BANAMEX':    deriveBank(BBVA,[2.31,1.10,1.20,0.94,0.39],[2.30,1.05,1.25,0.94,0.38],[0.40,0.22,0.18,0.30,0.15]),
+  'MIFEL USD':  deriveBank(BBVA,[0.77,0.37,0.40,0.31,0.13],[0.77,0.35,0.42,0.31,0.13],[0.10,0.06,0.05,0.05,0.04]),
+};
+const BANK_LIST = ['BBVA','MIFEL 0509','MIFEL 0479','BANAMEX','MIFEL USD'];
+const BANK_COLORS = {'BBVA':'#3bd6c6','MIFEL 0509':'#5ab4f5','MIFEL 0479':'#5ab4f5','BANAMEX':'#a78bfa','MIFEL USD':'#f5b942'};
+
+/* ── Consolidado "Todos" = suma de todos los bancos ── */
+function aggregate(banks){
+  const addS = arrs => arrs[0].map((_,i)=>+arrs.reduce((s,a)=>s+a[i],0).toFixed(2));
+  const r={ingRubros:{},egrRubros:{},cobranza:{},heatmap:{}};
+  r.saldoSerie = addS(banks.map(b=>b.saldoSerie));
+  r.ingMensual = addS(banks.map(b=>b.ingMensual));
+  r.egrMensual = addS(banks.map(b=>b.egrMensual));
+  r.saldoActual= +banks.reduce((s,b)=>s+b.saldoActual,0).toFixed(2);
+  for(const k in ING_COLORS) r.ingRubros[k]=addS(banks.map(b=>b.ingRubros[k]));
+  for(const k in EGR_COLORS) r.egrRubros[k]=addS(banks.map(b=>b.egrRubros[k]));
+  for(const k in COB_COLORS) r.cobranza[k]=+banks.reduce((s,b)=>s+b.cobranza[k],0).toFixed(2);
+  months.forEach(m=> r.heatmap[m]=banks[0].heatmap[m].map((_,i)=>+banks.reduce((s,b)=>s+b.heatmap[m][i],0).toFixed(3)));
+  return r;
+}
+DATA['Todos'] = aggregate(BANK_LIST.map(b=>DATA[b]));
+
+/* ════════════════════════════════════════════════════════════════
+   RENDER
+   ════════════════════════════════════════════════════════════════ */
+const tc='rgba(232,240,244,0.35)', gc='rgba(255,255,255,0.05)';
+const scX={ticks:{color:tc,font:{size:10,family:'DM Sans'}},grid:{color:gc},border:{color:'transparent'}};
+const scY={ticks:{color:tc,font:{size:10,family:'DM Sans'},callback:v=>'$'+v+'M'},grid:{color:gc},border:{color:'transparent'}};
+const fmt = v => '$'+(+v).toFixed(v>=10?1:2)+'M';
+let charts={};
+function mk(id,cfg){ if(charts[id])charts[id].destroy(); charts[id]=new Chart(document.getElementById(id),cfg); }
+function stackDatasets(rubros,colors){
+  return Object.keys(colors).map(k=>({label:k,data:rubros[k],backgroundColor:colors[k]+'cc',borderRadius:3,borderSkipped:false}));
+}
+function legendHTML(colors){
+  return Object.keys(colors).map(k=>`<span><span class="ld" style="background:${colors[k]}"></span>${k}</span>`).join('');
+}
+
+let current='Todos';
+
+/* Tabs */
+const tabsEl=document.getElementById('bankTabs');
+['Todos',...BANK_LIST].forEach(b=>{
+  const el=document.createElement('div');
+  el.className='btab'+(b==='Todos'?' active':''); el.textContent=b; el.dataset.bank=b;
+  el.onclick=()=>select(b);
+  tabsEl.appendChild(el);
+});
+function select(b){
+  current=b;
+  document.querySelectorAll('.btab').forEach(t=>t.classList.toggle('active',t.dataset.bank===b));
+  render(b);
+}
+
+/* Tarjeta comparativa de saldos (siempre todos los bancos) */
+function renderBankComparison(){
+  const maxS=Math.max(...BANK_LIST.map(b=>DATA[b].saldoActual));
+  mk('bankChart',{type:'bar',data:{
+    labels:BANK_LIST,
+    datasets:[{data:BANK_LIST.map(b=>DATA[b].saldoActual),
+      backgroundColor:BANK_LIST.map(b=>BANK_COLORS[b]+(current==='Todos'||current===b?'dd':'55')),
+      borderRadius:4,borderSkipped:false}]
+  },options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',
+    onClick:(e,els)=>{ if(els.length) select(BANK_LIST[els[0].index]); },
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmt(c.parsed.x)}}},
+    scales:{y:{ticks:{color:tc,font:{size:10,family:'DM Sans'}},grid:{display:false},border:{color:'transparent'}},
+            x:{ticks:{color:tc,font:{size:10,family:'DM Sans'},callback:v=>'$'+v+'M'},grid:{color:gc},border:{color:'transparent'}}}}});
+  const tb=document.getElementById('bankRows'); tb.innerHTML='';
+  BANK_LIST.forEach(b=>{
+    const s=DATA[b].saldoActual;
+    tb.innerHTML+=`<tr class="${current===b?'sel':''}" onclick="select('${b}')">
+      <td class="bank-name">${b}</td>
+      <td class="mono pos">${fmt(s)}</td>
+      <td><span class="bar-wrap"><span class="bar-fill" style="width:${(s/maxS*100).toFixed(0)}%;background:${BANK_COLORS[b]};display:block;"></span></span></td>
+    </tr>`;
+  });
+}
+
+function render(bank){
+  const d=DATA[bank];
+  const isAll=bank==='Todos';
+  const name=isAll?'Todos los bancos':bank;
+
+  /* Header */
+  document.getElementById('hdrSub').textContent=name+' · Enero – Mayo 2026';
+  document.getElementById('hdrBadge').textContent='Saldo: '+fmt(d.saldoActual);
+  document.getElementById('tagBank').textContent=isAll?'Vista consolidada':name;
+  document.getElementById('consTitle').textContent='Ingresos vs Egresos'+(isAll?'':' — '+name);
+  document.getElementById('consSub').textContent=name+' · Millones MXN';
+  document.getElementById('heatSub').textContent='Monto por día · '+name+' · Millones MXN';
+
+  /* KPIs ingresos */
+  document.getElementById('kpiTotalIng').textContent=fmt(sum(d.ingMensual));
+  document.getElementById('kpiTotalIngSub').textContent=name+' · Ene–May';
+  document.getElementById('kpiCob').textContent=fmt(sum(Object.values(d.cobranza)));
+  document.getElementById('kpiCosecha').textContent=fmt(sum(d.ingRubros['Cosecha de rentas']));
+  document.getElementById('kpiTrasp').textContent=fmt(sum(d.ingRubros['Traspasos']));
+  /* KPIs egresos */
+  document.getElementById('kpiTotalEgr').textContent=fmt(sum(d.egrMensual));
+  document.getElementById('kpiPagoAct').textContent=fmt(sum(d.egrRubros['Pago de activos']));
+  document.getElementById('kpiCosto').textContent=fmt(sum(d.egrRubros['Costo']));
+  document.getElementById('kpiGastoCom').textContent=fmt(sum(d.egrRubros['Gasto'])+sum(d.egrRubros['Comisiones bancarias']));
+
+  /* Ingresos vs Egresos */
+  mk('consChart',{type:'bar',data:{labels:months,datasets:[
+    {label:'Ingresos',data:d.ingMensual,backgroundColor:'rgba(59,214,198,0.72)',borderRadius:3,borderSkipped:false},
+    {label:'Egresos', data:d.egrMensual,backgroundColor:'rgba(240,96,96,0.72)', borderRadius:3,borderSkipped:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,callbacks:{label:c=>` ${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
+    scales:{x:scX,y:scY}}});
+
+  /* Ingresos por rubro (apilado) */
+  document.getElementById('ingLegend').innerHTML=legendHTML(ING_COLORS);
+  mk('ingChart',{type:'bar',data:{labels:months,datasets:stackDatasets(d.ingRubros,ING_COLORS)},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
+      scales:{x:{...scX,stacked:true},y:{...scY,stacked:true}}}});
+
+  /* Cobranza donut + lista */
+  const cobKeys=Object.keys(d.cobranza), cobVals=cobKeys.map(k=>d.cobranza[k]);
+  const cobMax=Math.max(...cobVals);
+  mk('cobChart',{type:'doughnut',data:{labels:cobKeys,
+    datasets:[{data:cobVals,backgroundColor:cobKeys.map(k=>COB_COLORS[k]),borderColor:'#1a3040',borderWidth:2,hoverOffset:6}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'65%',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmt(c.parsed)}}}}});
+  document.getElementById('cobList').innerHTML=cobKeys.map(k=>`<div class="rrow">
+      <span class="rlabel">${k}</span>
+      <div class="rbw"><div class="rb" style="width:${(d.cobranza[k]/cobMax*100).toFixed(0)}%;background:${COB_COLORS[k]};"></div></div>
+      <span class="rval">${fmt(d.cobranza[k])}</span></div>`).join('');
+
+  /* Heatmap */
+  renderHeatmap(d.heatmap);
+
+  /* Egresos por rubro (apilado) */
+  document.getElementById('egrLegend').innerHTML=legendHTML(EGR_COLORS);
+  mk('egrChart',{type:'bar',data:{labels:months,datasets:stackDatasets(d.egrRubros,EGR_COLORS)},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${fmt(c.parsed.y)}`}}},
+      scales:{x:{...scX,stacked:true},y:{...scY,stacked:true}}}});
+
+  /* Donut composición egresos */
+  const egrKeys=Object.keys(d.egrRubros), egrVals=egrKeys.map(k=>sum(d.egrRubros[k]));
+  const egrTotal=egrVals.reduce((s,v)=>s+v,0), egrMax=Math.max(...egrVals);
+  mk('donutChart',{type:'doughnut',data:{labels:egrKeys,
+    datasets:[{data:egrVals,backgroundColor:egrKeys.map(k=>EGR_COLORS[k]),borderColor:'#1a3040',borderWidth:2,hoverOffset:6}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${fmt(c.parsed)} (${(c.parsed/egrTotal*100).toFixed(0)}%)`}}}}});
+  document.getElementById('egrList').innerHTML=egrKeys.map((k,i)=>`<div class="rrow">
+      <span class="rlabel">${k}</span>
+      <div class="rbw"><div class="rb" style="width:${(egrVals[i]/egrMax*100).toFixed(0)}%;background:${EGR_COLORS[k]};display:block;"></div></div>
+      <span class="rval">${fmt(egrVals[i])}</span></div>`).join('');
+
+  /* Saldo mensual */
+  mk('saldoChart',{type:'line',data:{labels:months,datasets:[{label:'Saldo',data:d.saldoSerie,
+    borderColor:'#5ab4f5',backgroundColor:'rgba(90,180,245,0.07)',tension:.4,fill:true,pointRadius:5,
+    pointBackgroundColor:'#5ab4f5',pointBorderColor:'#0f2027',pointBorderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+fmt(c.parsed.y)}}},
+      scales:{x:scX,y:{...scY,min:0}}}});
+
+  /* Flujo neto */
+  const flujo=d.ingMensual.map((v,i)=>+(v-d.egrMensual[i]).toFixed(2));
+  mk('flujChart',{type:'bar',data:{labels:months,datasets:[{label:'Flujo neto',data:flujo,
+    backgroundColor:flujo.map(v=>v>=0?'rgba(59,214,198,0.75)':'rgba(240,96,96,0.75)'),borderRadius:4,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.y>=0?'+':''}${c.parsed.y.toFixed(2)}M`}}},
+      scales:{x:scX,y:{ticks:{color:tc,font:{size:10,family:'DM Sans'},callback:v=>(v>=0?'+':'')+v.toFixed(1)+'M'},grid:{color:gc},border:{color:'transparent'}}}}});
+
+  renderBankComparison();
+}
+
+/* Heatmap render */
+function renderHeatmap(hm){
+  const allVals=Object.values(hm).flat().filter(v=>v>0);
+  const maxHeat=Math.max(...allVals,0.0001);
+  const heatColor=v=>{ if(!v)return'rgba(59,214,198,0.06)'; const t=v/maxHeat;
+    if(t<0.15)return'rgba(59,214,198,0.18)'; if(t<0.35)return'rgba(59,214,198,0.38)';
+    if(t<0.60)return'rgba(59,214,198,0.58)'; if(t<0.80)return'rgba(59,214,198,0.78)';
+    return'rgba(59,214,198,0.96)'; };
+  const textColor=v=> v/maxHeat>0.5?'#0f2027':'rgba(232,240,244,0.6)';
+  const el=document.getElementById('heatmap');
+  let html=`<div></div>`+months.map(m=>`<div class="hm-month">${m}</div>`).join('');
+  for(let day=1;day<=31;day++){
+    html+=`<div class="hm-day">${day}</div>`;
+    months.forEach(m=>{
+      const v=hm[m][day-1]||0;
+      const label=v>0?'$'+v.toFixed(2)+'M':'';
+      html+=`<div class="hm-cell" style="background:${heatColor(v)};color:${textColor(v)};">${label}
+        <span class="tooltip">Día ${day} ${m}: $${v.toFixed(3)}M</span></div>`;
+    });
   }
-});
+  el.innerHTML=html;
+}
 
-// ── 4. DONUT COMPOSICIÓN EGRESOS ──
-const egrData = [
-  { label:'Pago de activos',  val:84.55, color:'#f06060' },
-  { label:'Costo operativo',  val:17.75, color:'#f5b942' },
-  { label:'Gasto admin',      val:5.00,  color:'#a78bfa' },
-  { label:'Financiamiento',   val:5.25,  color:'#5ab4f5' },
-  { label:'Impuestos',        val:3.77,  color:'#64748b' },
-];
-const egrTotal = egrData.reduce((s,d)=>s+d.val,0);
-
-new Chart(document.getElementById('donutChart'), {
-  type: 'doughnut',
-  data: {
-    labels: egrData.map(d=>d.label),
-    datasets:[{ data:egrData.map(d=>d.val), backgroundColor:egrData.map(d=>d.color),
-      borderColor:'#1a3040', borderWidth:2, hoverOffset:6 }]
-  },
-  options:{
-    responsive:true, maintainAspectRatio:false, cutout:'62%',
-    plugins:{ legend:{display:false},
-      tooltip:{callbacks:{label:c=>` ${c.label}: $${c.parsed.toFixed(1)}M (${(c.parsed/egrTotal*100).toFixed(0)}%)`}} }
-  }
-});
-
-const egrList = document.getElementById('egrList');
-egrData.forEach(d=>{
-  egrList.innerHTML += `
-    <div class="rubro-row">
-      <span class="rubro-label">${d.label}</span>
-      <div class="rubro-bar-wrap"><div class="rubro-bar" style="width:${(d.val/egrData[0].val*100).toFixed(0)}%;background:${d.color};"></div></div>
-      <span class="rubro-val">$${d.val.toFixed(1)}M</span>
-    </div>`;
-});
-
-// ── 5. SALDO MENSUAL ──
-new Chart(document.getElementById('saldoChart'), {
-  type:'line',
-  data:{
-    labels:months,
-    datasets:[{ label:'Saldo', data:[3.44,2.48,0.98,2.94,5.84],
-      borderColor:'#5ab4f5', backgroundColor:'rgba(90,180,245,0.07)',
-      tension:0.4, fill:true,
-      pointRadius:5, pointBackgroundColor:'#5ab4f5',
-      pointBorderColor:'#0f2027', pointBorderWidth:2 }]
-  },
-  options:{
-    responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:noLeg, tooltip:{callbacks:{label:c=>` $${c.parsed.y.toFixed(2)}M`}} },
-    scales:{ x:scX, y:{...scY, min:0} }
-  }
-});
-
-// ── 6. FLUJO NETO MENSUAL ──
-const flujoData = [
-  46.05-43.19,  // Ene
-  24.23-24.48,  // Feb
-  31.12-29.80,  // Mar
-  37.24-32.94,  // Abr
-  26.32-22.55,  // May
-];
-new Chart(document.getElementById('flujChart'), {
-  type:'bar',
-  data:{
-    labels:months,
-    datasets:[{
-      label:'Flujo neto',
-      data: flujoData,
-      backgroundColor: flujoData.map(v=>v>=0?'rgba(59,214,198,0.75)':'rgba(240,96,96,0.75)'),
-      borderRadius:4, borderSkipped:false
-    }]
-  },
-  options:{
-    responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:noLeg, tooltip:{callbacks:{label:c=>` $${c.parsed.y.toFixed(2)}M`}} },
-    scales:{
-      x:scX,
-      y:{ ticks:{color:tc,font:{size:10,family:'DM Sans'},callback:v=>(v>=0?'+':'')+v.toFixed(1)+'M'},
-          grid:{color:gc}, border:{color:'transparent'} }
-    }
-  }
-});
-
-// ── 7. INGRESOS VS EGRESOS TOTALES MENSUALES ──
-new Chart(document.getElementById('vsChart'), {
-  type:'bar',
-  data:{
-    labels:months,
-    datasets:[
-      { label:'Ingresos', data:[46.05,24.23,31.12,37.24,26.32], backgroundColor:'rgba(59,214,198,0.72)', borderRadius:3, borderSkipped:false },
-      { label:'Egresos',  data:[43.19,24.48,29.80,32.94,22.55], backgroundColor:'rgba(240,96,96,0.72)',  borderRadius:3, borderSkipped:false },
-    ]
-  },
-  options:{
-    responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:noLeg, tooltip:{mode:'index',intersect:false,
-      callbacks:{label:c=>` ${c.dataset.label}: $${c.parsed.y.toFixed(1)}M`}} },
-    scales:{ x:scX, y:scY }
-  }
-});
+/* Init */
+render('Todos');
 </script>
 </body>
 </html>
