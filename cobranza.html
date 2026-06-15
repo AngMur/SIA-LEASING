@@ -147,7 +147,7 @@ td{padding:7px 9px;color:var(--text)}
 .c-r{background:var(--red2);color:var(--red)}
 
 /* ── METRICS ── */
-.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:16px}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:16px}
 .mcard{background:var(--s1);border:1px solid var(--border);border-radius:13px;padding:16px 18px;position:relative;overflow:hidden;transition:transform .18s,border-color .18s;cursor:default}
 .mcard:hover{transform:translateY(-2px)}
 .mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:13px 13px 0 0}
@@ -345,6 +345,12 @@ td{padding:7px 9px;color:var(--text)}
     </div>
   </div>
 
+    <!-- MÉTRICAS -->
+  <div class="metrics-grid" id="metrics-grid">
+    <!-- generadas por JS -->
+  </div>
+
+
   <!-- BUSCADOR PRINCIPAL -->
   <div class="card" style="margin-bottom:13px;padding:14px 16px">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
@@ -389,10 +395,6 @@ td{padding:7px 9px;color:var(--text)}
     </div>
   </div>
 
-  <!-- MÉTRICAS -->
-  <div class="metrics-grid" id="metrics-grid">
-    <!-- generadas por JS -->
-  </div>
 
   <!-- CHARTS -->
   <div class="cg2">
