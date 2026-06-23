@@ -1,0 +1,37 @@
+{
+    "2026": {
+        "05": {
+            "filas": [
+                { "rfc": "KAM111123GE9", "cliente": "COMPAÑIA KS AMBIENTAL","noVencido": 0.00, "dias0a30": 2387280.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 8.41, "total": 2387288.41 },
+                { "rfc": "TCH850701RM1", "cliente": "TIENDAS CHEDRAUI", "noVencido": 1367754.84, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 1367754.84 },
+                { "rfc": "QUHO870905RKA", "cliente": "OSCAR QUIROZ HERNANDEZ", "noVencido": 0.00, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 887483.92, "total": 887483.92 },
+                { "rfc": "ESC051101I51", "cliente": "ESCRUCERO", "noVencido": 622694.96, "dias0a30": 199354.12, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 822049.08 },
+                { "rfc": "SER040226NS6", "cliente": "SERMEGA", "noVencido": 201149.80, "dias0a30": 263332.76, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 464482.56 },
+                { "rfc": "MEC140128U92", "cliente": "MEDICINA, ELECTRICIDAD Y CONSTRUCCION", "noVencido": 0.00, "dias0a30": 55680.00, "dias31a60": 55680.00, "dias61a90": 55680.00, "masDe90": 0.12, "total": 167040.12 },
+                { "rfc": "IMG211116KU9", "cliente": "IZAJES, MANIOBRAS Y GRUAS OJEDA", "noVencido": 0.00, "dias0a30": 0.00, "dias31a60": 264654.00, "dias61a90": 5417.39, "masDe90": 28983.15, "total": 299054.54 },
+                { "rfc": "MEME850412579", "cliente": "ENRIQUE MERCADO MUÑOZ", "noVencido": 0.00, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 239572.06, "total": 239572.06 },
+                { "rfc": "SAC070101K54", "cliente": "SERVICIOS ADMINISTRATIVOS LA CENTRAL", "noVencido": 0.00, "dias0a30": 200000.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 200000.00 },
+                { "rfc": "FCP201110TE3", "cliente": "FROCCA CONSULTORIA POLITICA", "noVencido": 0.00, "dias0a30": 61770.00, "dias31a60": 61770.00, "dias61a90": 61770.00, "masDe90": 0.00, "total": 185310.00 },
+                { "rfc": "EAL210724IV7", "cliente": "EDIFICA+ ARQUITECTURA LINEAL", "noVencido": 0.00, "dias0a30": 140708.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": -0.36, "total": 140707.64 },
+                { "rfc": "MADM60113097A", "cliente": "MANUEL MARQUEZ DICENTIS", "noVencido": 76749.08, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 76749.08 },
+                { "rfc": "MPR230124CF1", "cliente": "MPR PRODUCCIONES", "noVencido": 0.00, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 72563.83, "masDe90": 0.00, "total": 72563.83 },
+                { "rfc": "VVP191209LU0", "cliente": "V&P VIA PONIENTE", "noVencido": 0.00, "dias0a30": 65888.00, "dias31a60": 0.00, "dias61a90": 5729.11, "masDe90": 0.40, "total": 71617.51 },
+                { "rfc": "CASV720126UE0", "cliente": "VICTOR MANUEL CADENA SANCHEZ", "noVencido": 0.00, "dias0a30": 55980.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 55980.00 },
+                { "rfc": "SOD210609GI3", "cliente": "SODIVANO", "noVencido": 0.00, "dias0a30": 19256.00, "dias31a60": 19256.00, "dias61a90": 0.00, "masDe90": 1321.91, "total": 39833.91 },
+                { "rfc": "CACE900522KI8", "cliente": "EMMANUEL CASTRO CECILIANO", "noVencido": 0.00, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 30878.80, "masDe90": 0.00, "total": 30878.80 },
+                { "rfc": "GRO1802077V1", "cliente": "GRUPO ROSENGAR", "noVencido": 0.00, "dias0a30": 16472.00, "dias31a60": 6938.24, "dias61a90": 6554.00, "masDe90": 0.00, "total": 29964.24 },
+                { "rfc": "GRD070226HY8", "cliente": "GRUPO RIVERA DEL DUERO", "noVencido": 0.00, "dias0a30": 26221.02, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 26221.02 },
+                { "rfc": "AICM670211KG3", "cliente": "JOSE MANUEL ARIAS CORDOVA", "noVencido": 0.00, "dias0a30": 0.00, "dias31a60": 5434.99, "dias61a90": 5434.99, "masDe90": 11931.58, "total": 22801.56 },
+                { "rfc": "DMI021112U64", "cliente": "DISTRIBUIDORA MUSICAL INTERNACIONAL", "noVencido": 18485.47, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 18485.47 },
+                { "rfc": "PEMF791001FD7", "cliente": "JOSE FRANCISCO PEREZ MEDINA", "noVencido": 0.00, "dias0a30": 6237.32, "dias31a60": 6237.32, "dias61a90": 0.32, "masDe90": 2.56, "total": 12477.52 },
+                { "rfc": "GCE080107QM9", "cliente": "GRAFICOS LA CENTRAL", "noVencido": 0.00, "dias0a30": 6960.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 6960.00 },
+                { "rfc": "MERL890428367", "cliente": "LILIANA DE LA LUZ MENDOZA RODRIGUEZ", "noVencido": 0.00, "dias0a30": 6809.20, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 6809.20 },
+                { "rfc": "MHI0103096Q8", "cliente": "SOCIEDAD MONICA E HIJOS", "noVencido": 6690.88, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 6690.88 },
+                { "rfc": "GAU210819AG6", "cliente": "GC AUD-CONT", "noVencido": 4325.64, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 1.23, "total": 4326.87 },
+                { "rfc": "CCE820309TJA", "cliente": "COMPAÑIA CERILLERA LA CENTRAL", "noVencido": 1845.49, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 1983.83, "total": 3829.32 },
+                { "rfc": "CAVM000813I44", "cliente": "MONTSERRAT CAMPERO VELEZ", "noVencido": 1276.00, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 1276.00 },
+                { "rfc": null, "cliente": "MARIA DE LA PAZ GUTIERREZ CORTINA", "noVencido": 4.00, "dias0a30": 0.00, "dias31a60": 0.00, "dias61a90": 0.00, "masDe90": 0.00, "total": 4.00 }
+            ]
+        }
+    }
+}

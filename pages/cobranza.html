@@ -1,0 +1,832 @@
+<div class="header">
+  <div>
+    <div class="eyebrow">SIA Lease, S.A. de C.V.</div>
+    <h1>Cobranza</h1>
+    <div class="sub" id="sub">Cargando…</div>
+  </div>
+  <div class="badge"><span class="dot"></span><span id="hdrBadge">Cobranza acum.: —</span></div>
+</div>
+
+<div class="kpi-grid g4">
+  <div class="kpi green"><div class="kpi-label">No vencido</div><div class="kpi-value" id="noVencido">—</div><div class="kpi-sub" id="subNoVencido">0 clientes</div></div>
+  <div class="kpi cyan" ><div class="kpi-label">De 0-30</div><div class="kpi-value"  id="0-30">—</div><div class="kpi-sub" id="sub0-30">0 clientes</div></div>
+  <div class="kpi sky"  ><div class="kpi-label">De 31-60</div><div class="kpi-value" id="31-60">—</div><div class="kpi-sub" id="sub31-60">0 clientes</div></div>
+  <div class="kpi amber"><div class="kpi-label">De 61-90</div><div class="kpi-value" id="61-90">—</div><div class="kpi-sub" id="sub61-90">0 clientes</div></div>
+  <div class="kpi red"  ><div class="kpi-label">Más de 90</div><div class="kpi-value" id="mas90">—</div><div class="kpi-sub" id="subMas90">0 clientes</div></div>
+</div>
+
+<div class="chart-card">
+  <div class="ch">
+    <div><h3>Detalle de cobranza</h3><div class="cs" id="tbl-sub">Cargando…</div></div>
+  </div>
+  <div class="tbl-wrap" style="margin-top:8px;">
+    <table class="cartera-table">
+      <thead><tr>
+        <th>#</th><th>RFC</th><th>Cliente</th>
+        <th style="text-align:right">No vencido</th>
+        <th style="text-align:right">0-30 días</th>
+        <th style="text-align:right">31-60 días</th>
+        <th style="text-align:right">61-90 días</th>
+        <th style="text-align:right">&gt;90 días</th>
+        <th style="text-align:right">Total</th>
+        <th>Estatus</th>
+      </tr></thead>
+      <tbody id="tbl"></tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ── Gráficas ── -->
+<div class="sdiv" style="margin-top:20px;"><span class="slabel">Gráficas</span><span class="sline"></span></div>
+
+<div class="row r-wide">
+  <div class="chart-card">
+    <div class="ch"><div><h3>Top clientes por saldo total</h3><div class="cs">Distribución por antigüedad</div></div></div>
+    <div style="position:relative;height:240px;"><canvas id="barChart"></canvas></div>
+  </div>
+  <div class="chart-card" style="display:flex;flex-direction:column;">
+    <div class="ch"><div><h3>Distribución por tramo</h3><div class="cs">Participación de cobranza</div></div></div>
+    <div class="gauge-wrap" style="position:relative;flex:1;min-height:180px;">
+      <canvas id="donutChart"></canvas>
+      <div class="gauge-center">
+        <div class="gc-val" id="donutCenter" style="color:var(--cyan,#3bd6c6);">—</div>
+        <div class="gc-lbl">Total MXN</div>
+      </div>
+    </div>
+    <div id="donutLegend" style="margin-top:8px;"></div>
+  </div>
+</div>
+
+<div class="row r3" style="margin-top:12px;">
+  <div class="chart-card">
+    <div class="ch"><div><h3 style="color:var(--red,#f06060)">Cartera crítica &gt;90</h3><div class="cs">Mayor exposición vencida</div></div></div>
+    <div id="riskList"></div>
+  </div>
+  <div class="chart-card">
+    <div class="ch"><div><h3>Concentración</h3><div class="cs">Participación top clientes</div></div></div>
+    <div id="hbars"></div>
+  </div>
+  <div class="chart-card">
+    <div class="ch"><div><h3>Estatus de clientes</h3><div class="cs">Cantidad por categoría</div></div></div>
+    <div style="height:165px;"><canvas id="statusChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ── Modal análisis individual ── -->
+<div id="clienteModal" style="display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-rfc" id="mRfc">—</div>
+        <div class="modal-nombre" id="mNombre">—</div>
+      </div>
+      <!-- <button class="modal-close" onclick="cerrarModal()">✕</button> -->
+    </div>
+    <div class="modal-kpis" id="mKpis"></div>
+    <div style="position:relative;height:180px;margin-top:12px;">
+      <canvas id="modalChart"></canvas>
+    </div>
+    <div class="modal-barra-wrap" id="mBarras"></div>
+  </div>
+</div>
+
+<!-- ── Sección: cargar / cambiar mes ── -->
+<section id="upload-section" style="margin-top:24px;">
+  <div class="sdiv"><span class="slabel">Gestión de datos</span><span class="sline"></span></div>
+
+  <div class="up-card">
+    <div class="up-grid">
+
+      <!-- Panel izquierdo: selector de periodo -->
+      <div class="up-period">
+        <h4>Periodo</h4>
+        <div class="up-selects">
+          <select id="mesGuardar">
+            <option value="01">Enero</option><option value="02">Febrero</option>
+            <option value="03">Marzo</option><option value="04">Abril</option>
+            <option value="05">Mayo</option><option value="06">Junio</option>
+            <option value="07">Julio</option><option value="08">Agosto</option>
+            <option value="09">Septiembre</option><option value="10">Octubre</option>
+            <option value="11">Noviembre</option><option value="12">Diciembre</option>
+          </select>
+          <select id="anioGuardar">
+            <option value="2027">2027</option>
+            <option value="2026" selected>2026</option>
+            <option value="2025">2025</option>
+          </select>
+        </div>
+
+        <div class="up-hint">
+          Mes activo: <strong id="upHintPeriodo">—</strong>
+        </div>
+
+        <!-- Botón: solo cambiar vista -->
+        <button class="up-btn up-btn-ghost" id="btnCambiarMes" style="width:100%;">
+          ⟳ Ver este mes
+        </button>
+      </div>
+
+      <!-- Panel derecho: cargar Excel -->
+      <div>
+        <h4 style="font-size:11px;font-weight:600;color:var(--muted,#8aa0b0);text-transform:uppercase;letter-spacing:.07em;margin:0 0 10px;">
+          Cargar dataset (.xlsx / .xls / .csv)
+        </h4>
+        <div class="up-drop" id="upDrop">
+          <input type="file" id="file" accept=".xlsx,.xls,.csv">
+          <div class="up-drop-ico">📂</div>
+          <div class="up-drop-lbl">Arrastra tu archivo aquí</div>
+          <div class="up-drop-sub">Columnas: RFC · Cliente · No_vencido · Dias_0_30 · Dias_31_60 · Dias_61_90 · Mas_90_dias</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Aviso de columnas faltantes -->
+    <div class="up-map-warn" id="upMapWarn"></div>
+
+    <!-- Preview -->
+    <div id="upPreview" style="display:none;margin-top:16px;">
+      <div class="up-stats" id="upStats"></div>
+    </div>
+
+    <!-- Acciones -->
+    <div class="up-actions">
+      <button class="up-btn up-btn-primary" id="btnEnviar" disabled>↑ Guardar en Drive</button>
+      <button class="up-btn up-btn-ghost"   id="btnLimpiar">Limpiar</button>
+      <span   class="up-status" id="upStatus"></span>
+    </div>
+  </div>
+</section>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════════
+const apiUrl = "https://script.google.com/macros/s/AKfycbxdx_Q9cbAXG85XKCp-CChcoxE7B897o8yantWgF1Pxbj2_zlp0QT0Oo0-KNoTUtq4k5g/exec";
+
+const MESES_NOMBRE = {
+  "01":"Enero","02":"Febrero","03":"Marzo","04":"Abril",
+  "05":"Mayo","06":"Junio","07":"Julio","08":"Agosto",
+  "09":"Septiembre","10":"Octubre","11":"Noviembre","12":"Diciembre"
+};
+
+// Mapeo columnas Excel → schema del JSON
+const COL_MAP = {
+  'id':'rfc','nombre':'cliente',
+  'no_vencido':'noVencido','dias_0_30':'dias0a30',
+  'dias_31_60':'dias31a60','dias_61_90':'dias61a90','mas_90_dias':'masDe90',
+  'rfc':'rfc','cliente':'cliente'
+};
+const COLS_NUM = ['noVencido','dias0a30','dias31a60','dias61a90','masDe90'];
+const COLS_ALL = ['rfc','cliente',...COLS_NUM];
+
+let filasAGuardar = null;
+
+// ═══════════════════════════════════════════════════════
+// FORMATO
+// ═══════════════════════════════════════════════════════
+function formatear(v) {
+  return v === 0 ? '—' : '$' + (Math.abs(v) >= 1e6 ? (v/1e6).toFixed(2)+'M' : (v/1e3).toFixed(1)+'K');
+}
+
+// ═══════════════════════════════════════════════════════
+// NORMALIZACIÓN — acepta cualquier formato del historial
+// ═══════════════════════════════════════════════════════
+
+// Mapeo inverso: nombres originales del Excel → camelCase
+const RAW_MAP = {
+  // mayúsculas (como llega en "01")
+  'RFC':'rfc','Cliente':'cliente',
+  'No_vencido':'noVencido','Dias_0_30':'dias0a30',
+  'Dias_31_60':'dias31a60','Dias_61_90':'dias61a90','Mas_90_dias':'masDe90',
+  // minúsculas
+  'rfc':'rfc','cliente':'cliente',
+  'no_vencido':'noVencido','dias_0_30':'dias0a30',
+  'dias_31_60':'dias31a60','dias_61_90':'dias61a90','mas_90_dias':'masDe90',
+  // ya en camelCase (meses 05 y 06)
+  'noVencido':'noVencido','dias0a30':'dias0a30',
+  'dias31a60':'dias31a60','dias61a90':'dias61a90','masDe90':'masDe90',
+  'total':'total'
+};
+
+function normalizarFila(raw) {
+  const fila = {};
+  Object.keys(raw).forEach(k => {
+    const dest = RAW_MAP[k] || RAW_MAP[k.trim()];
+    if (!dest) return;
+    fila[dest] = raw[k];
+  });
+  // Asegura que todos los campos numéricos existan
+  COLS_NUM.forEach(col => {
+    if (fila[col] === undefined) fila[col] = 0;
+    fila[col] = parseFloat(fila[col]) || 0;
+  });
+  // Recalcula total siempre (por si no venía o estaba mal)
+  fila.total = COLS_NUM.reduce((s,k) => s + fila[k], 0);
+  // RFC puede ser null en datos viejos — lo convierte a string vacío
+  fila.rfc    = fila.rfc    ? String(fila.rfc).trim()    : '';
+  fila.cliente = fila.cliente ? String(fila.cliente).trim() : '';
+  return fila;
+}
+
+function normalizarRespuesta(data) {
+  // El servidor puede devolver data.data.filas (formato nuevo)
+  // o data.data como array directo (formato viejo, mes "01")
+  let filasRaw;
+  if (data.data && Array.isArray(data.data.filas)) {
+    filasRaw = data.data.filas;                  // formato nuevo: { filas: [...] }
+  } else if (Array.isArray(data.data)) {
+    filasRaw = data.data;                        // formato viejo: array directo
+  } else {
+    filasRaw = [];
+  }
+  return filasRaw.map(normalizarFila).filter(f => f.rfc || f.cliente);
+}
+
+// ═══════════════════════════════════════════════════════
+// CARGA DE DATOS
+// ═══════════════════════════════════════════════════════
+async function leerUltimoMes() {
+  const res = await fetch(apiUrl + '?ultimo=true');
+  return await res.json();
+}
+
+async function leerMesConcreto(anio, mes) {
+  const res = await fetch(`${apiUrl}?anio=${anio}&mes=${mes}`);
+  return await res.json();
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT — renderiza KPIs y tabla; sincroniza selector
+// ═══════════════════════════════════════════════════════
+async function initData(data = null) {
+  if (!data) data = await leerUltimoMes();
+
+  const filas    = normalizarRespuesta(data);
+  const mesKey   = String(data.mes).padStart(2,'0');
+  const mesNombre = MESES_NOMBRE[mesKey] || data.mes;
+
+  // Subtítulo header
+  document.getElementById('sub').textContent =
+    'Datos de ' + mesNombre + ' ' + data.anio;
+
+  // Badge
+  const total = filas.reduce((s,r) => s+r.total,    0);
+  document.getElementById('hdrBadge').textContent = 'Cobranza acum.: ' + formatear(total);
+
+  // KPIs
+  const nv  = filas.reduce((s,r) => s+r.noVencido, 0);
+  const d30 = filas.reduce((s,r) => s+r.dias0a30,  0);
+  const d60 = filas.reduce((s,r) => s+r.dias31a60, 0);
+  const d90 = filas.reduce((s,r) => s+r.dias61a90, 0);
+  const m90 = filas.reduce((s,r) => s+r.masDe90,   0);
+
+  document.getElementById('noVencido').textContent = formatear(nv);
+  document.getElementById('0-30').textContent      = formatear(d30);
+  document.getElementById('31-60').textContent     = formatear(d60);
+  document.getElementById('61-90').textContent     = formatear(d90);
+  document.getElementById('mas90').textContent     = formatear(m90);
+
+  document.getElementById('subNoVencido').textContent = filas.filter(f=>f.noVencido >0).length + ' clientes';
+  document.getElementById('sub0-30').textContent      = filas.filter(f=>f.dias0a30  >0).length + ' clientes';
+  document.getElementById('sub31-60').textContent     = filas.filter(f=>f.dias31a60 >0).length + ' clientes';
+  document.getElementById('sub61-90').textContent     = filas.filter(f=>f.dias61a90 >0).length + ' clientes';
+  document.getElementById('subMas90').textContent     = filas.filter(f=>f.masDe90   >0).length + ' clientes';
+
+  // Sincroniza selector con el mes que llegó
+  document.getElementById('anioGuardar').value = String(data.anio);
+  document.getElementById('mesGuardar').value  = mesKey;
+  actualizarHint();
+
+  // Tabla y gráficas
+  renderTabla(filas);
+  renderGraficas(filas);
+}
+
+// ═══════════════════════════════════════════════════════
+// TABLA
+// ═══════════════════════════════════════════════════════
+function estatus(f) {
+  if (f.masDe90   > 0) return { texto:'+90 Días', clase:'c-r' };
+  if (f.dias61a90 > 0) return { texto:'+60 Días', clase:'c-o' };
+  if (f.dias31a60 > 0) return { texto:'+30 Días', clase:'c-y' };
+  if (f.dias0a30  > 0) return { texto:'0-30 Días',clase:'c-g' };
+  return { texto:'No vencido', clase:'c-nv' };
+}
+
+function renderTabla(filas) {
+  const tbody = document.getElementById('tbl');
+  tbody.innerHTML = '';
+  filas.forEach((f, i) => {
+    const { texto, clase } = estatus(f);
+    const tr = document.createElement('tr');
+    tr.style.cursor = 'pointer';
+    tr.addEventListener('click', () => abrirModal(f));
+    tr.innerHTML = `
+      <td>${i+1}</td>
+      <td>${f.rfc}</td>
+      <td class="tn">${f.cliente}</td>
+      <td class="tr2">${formatear(f.noVencido)}</td>
+      <td class="tr2">${formatear(f.dias0a30)}</td>
+      <td class="tr2">${formatear(f.dias31a60)}</td>
+      <td class="tr2">${formatear(f.dias61a90)}</td>
+      <td class="tr2">${formatear(f.masDe90)}</td>
+      <td class="tr2" style="font-weight:700">${formatear(f.total)}</td>
+      <td><span class="chip ${clase}">${texto}</span></td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('tbl-sub').textContent = filas.length + ' clientes';
+}
+
+// ═══════════════════════════════════════════════════════
+// SELECTOR DE MES
+// ═══════════════════════════════════════════════════════
+function actualizarHint() {
+  const mes  = document.getElementById('mesGuardar').value;
+  const anio = document.getElementById('anioGuardar').value;
+  document.getElementById('upHintPeriodo').textContent =
+    (MESES_NOMBRE[mes] || mes) + ' ' + anio;
+}
+
+// eventos del selector — se conectan en DOMContentLoaded (ver abajo)
+
+// ═══════════════════════════════════════════════════════
+// DROPZONE + PARSE EXCEL
+// ═══════════════════════════════════════════════════════
+// drop e inp — se conectan en DOMContentLoaded (ver abajo)
+let drop, inp;
+
+function procesarArchivo(file) {
+  mostrarStatus('Leyendo archivo…','inf');
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb  = XLSX.read(new Uint8Array(e.target.result), { type:'array' });
+      const ws  = wb.Sheets[wb.SheetNames[0]];
+      const raw = XLSX.utils.sheet_to_json(ws, { defval:'' });
+      if (!raw.length) { mostrarStatus('El archivo está vacío.','err'); return; }
+
+      // Mapeo de columnas
+      const headerMap = {};
+      Object.keys(raw[0]).forEach(h => {
+        const key = h.trim().toLowerCase();
+        if (COL_MAP[key]) headerMap[h] = COL_MAP[key];
+      });
+
+      const faltantes = COLS_ALL.filter(c => !Object.values(headerMap).includes(c));
+      const warn = document.getElementById('upMapWarn');
+      if (faltantes.length) {
+        warn.style.display = 'block';
+        warn.textContent   = '⚠ Columnas no encontradas: ' + faltantes.join(', ');
+      } else {
+        warn.style.display = 'none';
+      }
+
+      // Construir filas con schema del dashboard
+      const filas = raw.map(row => {
+        const fila = {};
+        COLS_ALL.forEach(col => {
+          const src = Object.keys(headerMap).find(k => headerMap[k] === col);
+          const val = src !== undefined ? row[src] : '';
+          fila[col] = COLS_NUM.includes(col)
+            ? (parseFloat(String(val).replace(/[,$\s]/g,'')) || 0)
+            : String(val).trim();
+        });
+        fila.total = COLS_NUM.reduce((s,k) => s+fila[k], 0);
+        return fila;
+      }).filter(f => f.rfc);
+
+      if (!filas.length) { mostrarStatus('No se encontraron filas con RFC.','err'); return; }
+
+      filasAGuardar = filas;
+      drop.classList.add('has-file');
+      document.getElementById('btnEnviar').disabled = false;
+
+      // Mini preview
+      const tot  = filas.reduce((s,f) => s+f.total,   0);
+      const venc = filas.reduce((s,f) => s+f.masDe90, 0);
+      const f2   = v => '$'+(Math.abs(v)>=1e6?(v/1e6).toFixed(2)+'M':(v/1e3).toFixed(1)+'K');
+      document.getElementById('upPreview').style.display = 'block';
+      document.getElementById('upStats').innerHTML = `
+        <div class="up-stat"><span>${filas.length}</span>clientes</div>
+        <div class="up-stat"><span>${f2(tot)}</span>total cartera</div>
+        <div class="up-stat"><span>${f2(venc)}</span>más de 90 días</div>
+        <div class="up-stat"><span>${filas.filter(f=>f.masDe90>0).length}</span>con cartera crítica</div>`;
+
+      mostrarStatus(filas.length+' filas listas para guardar.','ok');
+    } catch(err) {
+      mostrarStatus('Error al leer el archivo: '+err.message,'err');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+// ═══════════════════════════════════════════════════════
+// GUARDAR MES
+// ═══════════════════════════════════════════════════════
+async function guardarMes() {
+  if (!filasAGuardar) return;
+  const anio = document.getElementById('anioGuardar').value;
+  const mes  = document.getElementById('mesGuardar').value;
+  document.getElementById('btnEnviar').disabled = true;
+  mostrarStatus('Guardando en Drive…','inf');
+  try {
+    const res = await fetch(apiUrl, {
+      method:'POST',
+      headers:{ 'Content-Type':'text/plain' },
+      body: JSON.stringify({ anio, mes, data:{ filas:filasAGuardar } })
+    });
+    const resultado = await res.json();
+    console.log(resultado);
+    if (resultado.ok || resultado.status==='ok' || resultado.success) {
+      mostrarStatus('✓ Guardado: '+mes+'/'+anio+' — '+filasAGuardar.length+' clientes.','ok');
+      // Refresca el dashboard con el mes recién guardado
+      const data = await leerMesConcreto(anio, mes);
+      await initData(data);
+      limpiar();
+    } else {
+      mostrarStatus('Error del servidor: '+JSON.stringify(resultado),'err');
+      document.getElementById('btnEnviar').disabled = false;
+    }
+  } catch(err) {
+    mostrarStatus('Error de red: '+err.message,'err');
+    document.getElementById('btnEnviar').disabled = false;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// LIMPIAR
+// ═══════════════════════════════════════════════════════
+function limpiar() {
+  filasAGuardar = null;
+  inp.value = '';
+  drop.classList.remove('has-file');
+  document.getElementById('upPreview').style.display = 'none';
+  document.getElementById('upMapWarn').style.display = 'none';
+  document.getElementById('btnEnviar').disabled = true;
+}
+// btnLimpiar conectado en DOMContentLoaded
+
+// ═══════════════════════════════════════════════════════
+// STATUS
+// ═══════════════════════════════════════════════════════
+function mostrarStatus(msg, tipo) {
+  const el = document.getElementById('upStatus');
+  el.textContent = msg;
+  el.className   = 'up-status' + (tipo ? ' '+tipo : '');
+  el.style.display = msg ? 'block' : 'none';
+}
+
+
+// ═══════════════════════════════════════════════════════
+// GRÁFICAS
+// ═══════════════════════════════════════════════════════
+const COL = { blue:'#5ab4f5', green:'#4ade80', yellow:'#f5b942', orange:'#f97316', red:'#f06060', cyan:'#3bd6c6' };
+let charts = [];
+let modalChart = null;
+let FILAS_ACTIVAS = [];
+
+function destroyCharts() {
+  charts.forEach(c => { try { c.destroy(); } catch(e){} });
+  charts = [];
+}
+
+function renderGraficas(filas) {
+  destroyCharts();
+  FILAS_ACTIVAS = filas;
+  const tc    = 'rgba(232,240,244,0.35)';
+  const gc    = 'rgba(255,255,255,0.05)';
+  const GRAND = filas.reduce((s,f) => s+f.total, 0);
+
+  // ── 1. Barras apiladas top 8 ──────────────────────────
+  const top8 = [...filas].sort((a,b) => b.total-a.total).slice(0,8);
+  charts.push(new Chart(document.getElementById('barChart'), {
+    type:'bar',
+    data:{
+      labels: top8.map(f => f.cliente.split(' ').slice(0,2).join(' ')),
+      datasets:[
+        { label:'No vencido', data:top8.map(f=>f.noVencido),  backgroundColor:COL.blue  +'b3', borderRadius:3 },
+        { label:'0-30 días',  data:top8.map(f=>f.dias0a30),   backgroundColor:COL.green +'b3', borderRadius:3 },
+        { label:'31-60 días', data:top8.map(f=>f.dias31a60),  backgroundColor:COL.yellow+'b3', borderRadius:3 },
+        { label:'61-90 días', data:top8.map(f=>f.dias61a90),  backgroundColor:COL.orange+'b3', borderRadius:3 },
+        { label:'>90 días',   data:top8.map(f=>f.masDe90),    backgroundColor:COL.red   +'cc', borderRadius:3 },
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{ display:true, position:'top', labels:{ boxWidth:8, boxHeight:8, font:{size:9.5,family:'DM Sans'}, color:tc, padding:10 } },
+        tooltip:{ callbacks:{ label:ctx=>' '+ctx.dataset.label+': '+formatear(ctx.raw) } }
+      },
+      scales:{
+        x:{ stacked:true, ticks:{font:{size:8.5,family:'DM Sans'},color:tc,maxRotation:28}, grid:{display:false} },
+        y:{ stacked:true, ticks:{font:{size:8.5,family:'DM Sans'},color:tc,callback:v=>'$'+(v/1e3).toFixed(0)+'K'}, grid:{color:gc} }
+      }
+    }
+  }));
+
+  // ── 2. Donut ──────────────────────────────────────────
+  const dLabels = ['No vencido','0-30','31-60','61-90','>90'];
+  const dColors = [COL.blue, COL.green, COL.yellow, COL.orange, COL.red];
+  const dKeys   = ['noVencido','dias0a30','dias31a60','dias61a90','masDe90'];
+  const dVals   = dKeys.map(k => +filas.reduce((s,f)=>s+f[k],0).toFixed(2));
+
+  charts.push(new Chart(document.getElementById('donutChart'), {
+    type:'doughnut',
+    data:{ labels:dLabels, datasets:[{ data:dVals, backgroundColor:dColors.map(c=>c+'d9'), borderWidth:0, hoverOffset:7 }] },
+    options:{ responsive:true, maintainAspectRatio:false, cutout:'70%',
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${formatear(ctx.raw)} (${GRAND>0?(ctx.raw/GRAND*100).toFixed(1):0}%)`}} }
+    }
+  }));
+  document.getElementById('donutCenter').textContent = formatear(GRAND);
+  document.getElementById('donutLegend').innerHTML = dLabels.map((l,i) => `
+    <div class="leg-row"><span class="leg-name"><span class="leg-dot" style="background:${dColors[i]}"></span>${l}</span>
+    <div class="leg-vals"><span class="lv-a" style="color:${dColors[i]}">${formatear(dVals[i])}</span>
+    <span class="lv-p">${GRAND>0?(dVals[i]/GRAND*100).toFixed(1):0}%</span></div></div>`).join('');
+
+  // ── 3. Cartera crítica >90 ────────────────────────────
+  const risks = [...filas].filter(f=>f.masDe90>0).sort((a,b)=>b.masDe90-a.masDe90).slice(0,6);
+  const rl = document.getElementById('riskList');
+  rl.innerHTML = '';
+  if (!risks.length) {
+    rl.innerHTML = '<div class="no-r">Sin cartera crítica &gt;90 días</div>';
+  } else {
+    const maxR = risks[0].masDe90;
+    risks.forEach((f,i) => {
+      const rc  = i===0?'r1':i===1?'r2':'rn';
+      const div = document.createElement('div');
+      div.className = 'ri'; div.style.cursor = 'pointer';
+      div.innerHTML = `<div class="ri-rank ${rc}">${i+1}</div>
+        <div class="ri-body"><div class="ri-name">${f.cliente}</div>
+        <div class="ri-bar-wrap"><div class="ri-bar" style="width:${(f.masDe90/maxR*100).toFixed(1)}%"></div></div></div>
+        <div class="ri-amt">${formatear(f.masDe90)}</div>`;
+      div.addEventListener('click', () => abrirModal(f));
+      rl.appendChild(div);
+    });
+  }
+
+  // ── 4. Concentración ──────────────────────────────────
+  const hbEl  = document.getElementById('hbars');
+  hbEl.innerHTML = '';
+  const top6  = [...filas].sort((a,b)=>b.total-a.total).slice(0,6);
+  const hcols = [COL.cyan,COL.green,COL.red,COL.yellow,COL.blue,COL.orange];
+  top6.forEach((f,i) => {
+    const pct = GRAND>0 ? (f.total/GRAND*100).toFixed(1) : 0;
+    const div = document.createElement('div');
+    div.className = 'hbar'; div.style.cursor = 'pointer';
+    div.innerHTML = `<div class="hb-hd">
+      <span class="hb-name">${f.cliente.split(' ').slice(0,3).join(' ')}</span>
+      <span class="hb-pct" style="color:${hcols[i]}">${pct}%</span></div>
+      <div class="hb-track"><div class="hb-fill" style="width:${Math.min(pct*3.2,100)}%;background:${hcols[i]}"></div></div>`;
+    div.addEventListener('click', () => abrirModal(f));
+    hbEl.appendChild(div);
+  });
+
+  // ── 5. Estatus clientes ───────────────────────────────
+  const sCounts = [0,0,0,0,0];
+  filas.forEach(f => {
+    const e = estatus(f).texto;
+    if      (e==='No vencido') sCounts[0]++;
+    else if (e==='0-30 Días')  sCounts[1]++;
+    else if (e==='+30 Días')   sCounts[2]++;
+    else if (e==='+60 Días')   sCounts[3]++;
+    else if (e==='+90 Días')   sCounts[4]++;
+  });
+  charts.push(new Chart(document.getElementById('statusChart'), {
+    type:'bar',
+    data:{ labels:['No vencido','0-30','31-60','+60','+90'],
+      datasets:[{ data:sCounts, backgroundColor:[COL.blue,COL.green,COL.yellow,COL.orange,COL.red].map(c=>c+'bf'), borderRadius:5 }] },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>` ${ctx.raw} clientes`}} },
+      scales:{ x:{ticks:{font:{size:9,family:'DM Sans'},color:tc},grid:{display:false}},
+               y:{ticks:{font:{size:9,family:'DM Sans'},color:tc,stepSize:1},grid:{color:gc}} } }
+  }));
+}
+
+// ═══════════════════════════════════════════════════════
+// MODAL — análisis individual
+// ═══════════════════════════════════════════════════════
+function abrirModal(f) {
+  document.getElementById('mRfc').textContent    = f.rfc || '—';
+  document.getElementById('mNombre').textContent = f.cliente;
+
+  const GRAND = FILAS_ACTIVAS.reduce((s,r)=>s+r.total,0);
+  const pct   = GRAND>0 ? (f.total/GRAND*100).toFixed(1) : 0;
+  const { texto, clase } = estatus(f);
+
+  document.getElementById('mKpis').innerHTML = `
+    <div class="mk"><div class="mk-v">${formatear(f.total)}</div><div class="mk-l">Total</div></div>
+    <div class="mk"><div class="mk-v" style="color:var(--cyan,#3bd6c6)">${pct}%</div><div class="mk-l">Concentración</div></div>
+    <div class="mk"><div class="mk-v"><span class="chip ${clase}" style="font-size:12px">${texto}</span></div><div class="mk-l">Estatus</div></div>`;
+
+  // Barras de desglose por tramo
+  const tramos = [
+    { label:'No vencido', val:f.noVencido,  color:COL.blue   },
+    { label:'0-30 días',  val:f.dias0a30,   color:COL.green  },
+    { label:'31-60 días', val:f.dias31a60,  color:COL.yellow },
+    { label:'61-90 días', val:f.dias61a90,  color:COL.orange },
+    { label:'>90 días',   val:f.masDe90,    color:COL.red    },
+  ].filter(t => t.val > 0);
+
+  const maxT = Math.max(...tramos.map(t=>t.val), 1);
+  document.getElementById('mBarras').innerHTML = tramos.map(t => `
+    <div class="mb-row">
+      <span class="mb-lbl">${t.label}</span>
+      <div class="mb-track"><div class="mb-fill" style="width:${(t.val/maxT*100).toFixed(1)}%;background:${t.color}"></div></div>
+      <span class="mb-val" style="color:${t.color}">${formatear(t.val)}</span>
+    </div>`).join('') || '<div class="no-r">Sin desglose disponible</div>';
+
+  // Mini donut en el modal
+  if (modalChart) { try { modalChart.destroy(); } catch(e){} }
+  modalChart = new Chart(document.getElementById('modalChart'), {
+    type:'doughnut',
+    data:{
+      labels: tramos.map(t=>t.label),
+      datasets:[{ data:tramos.map(t=>t.val), backgroundColor:tramos.map(t=>t.color+'d9'), borderWidth:0, hoverOffset:5 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, cutout:'65%',
+      plugins:{ legend:{ display:true, position:'right',
+        labels:{ boxWidth:8, boxHeight:8, font:{size:9.5,family:'DM Sans'}, color:'rgba(232,240,244,0.5)', padding:8 } },
+        tooltip:{ callbacks:{ label:ctx=>` ${ctx.label}: ${formatear(ctx.raw)}` } }
+      }
+    }
+  });
+
+  const modal = document.getElementById('clienteModal');
+  modal.style.display = 'flex';
+  document.addEventListener('keydown', escModal);
+}
+
+function cerrarModal() {
+  document.getElementById('clienteModal').style.display = 'none';
+  document.removeEventListener('keydown', escModal);
+  if (modalChart) { try { modalChart.destroy(); } catch(e){} modalChart = null; }
+}
+
+function escModal(e) { if (e.key === 'Escape') cerrarModal(); }
+
+// modal click outside — conectado en DOMContentLoaded
+
+// ═══════════════════════════════════════════════════════
+// ARRANQUE — todo dentro de DOMContentLoaded
+// ═══════════════════════════════════════════════════════
+(function() {
+  // Dropzone
+  drop = document.getElementById('upDrop');
+  inp  = document.getElementById('file');
+  drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add('drag-over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('drag-over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('drag-over');
+    if (e.dataTransfer.files[0]) procesarArchivo(e.dataTransfer.files[0]);
+  });
+  inp.addEventListener('change', () => { if (inp.files[0]) procesarArchivo(inp.files[0]); });
+
+  // Selector de mes
+  document.getElementById('mesGuardar').addEventListener('change', actualizarHint);
+  document.getElementById('anioGuardar').addEventListener('change', actualizarHint);
+  document.getElementById('btnCambiarMes').addEventListener('click', async () => {
+    const anio = document.getElementById('anioGuardar').value;
+    const mes  = document.getElementById('mesGuardar').value;
+    mostrarStatus('Cargando…','inf');
+    try {
+      const data = await leerMesConcreto(anio, mes);
+      await initData(data);
+      mostrarStatus('','');
+    } catch(err) {
+      mostrarStatus('Error al cargar el mes: '+err.message,'err');
+    }
+  });
+
+  // Botones de carga
+  document.getElementById('btnEnviar').addEventListener('click', guardarMes);
+  document.getElementById('btnLimpiar').addEventListener('click', () => { limpiar(); mostrarStatus('',''); });
+
+  // Modal: cerrar al hacer clic fuera
+  document.getElementById('clienteModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('clienteModal')) cerrarModal();
+  });
+
+  // Carga inicial
+  initData();
+})();
+</script>
+
+<style>
+  /* ── Sección upload ── */
+  #upload-section .sdiv { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  #upload-section .slabel { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--muted,#8aa0b0); white-space:nowrap; }
+  #upload-section .sline { flex:1; height:1px; background:var(--border,rgba(255,255,255,.07)); }
+
+  .up-card { background:var(--card,#121e27); border:1px solid var(--border,rgba(255,255,255,.07)); border-radius:12px; padding:20px 22px; }
+  .up-grid { display:grid; grid-template-columns:220px 1fr; gap:18px; align-items:start; }
+  @media(max-width:680px){ .up-grid{ grid-template-columns:1fr; } }
+
+  .up-period { display:flex; flex-direction:column; gap:10px; }
+  .up-period h4 { margin:0; font-size:11px; font-weight:600; color:var(--muted,#8aa0b0); text-transform:uppercase; letter-spacing:.07em; }
+
+  .up-selects { display:flex; gap:8px; }
+  .up-selects select { flex:1; background:var(--input-bg,#0d1820); border:1px solid var(--border,rgba(255,255,255,.1)); border-radius:8px; color:var(--fg,#e8f0f4); font-size:12.5px; font-family:inherit; padding:7px 10px; cursor:pointer; outline:none; appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238aa0b0'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; padding-right:28px; }
+  .up-selects select:focus { border-color:var(--cyan,#3bd6c6); }
+
+  .up-hint { font-size:11px; color:var(--muted,#8aa0b0); line-height:1.5; background:rgba(59,214,198,.06); border:1px solid rgba(59,214,198,.15); border-radius:7px; padding:9px 11px; }
+  .up-hint strong { color:var(--cyan,#3bd6c6); }
+
+  .up-drop { border:2px dashed var(--border,rgba(255,255,255,.12)); border-radius:10px; padding:24px 20px; text-align:center; cursor:pointer; transition:border-color .2s,background .2s; position:relative; }
+  .up-drop:hover,.up-drop.drag-over { border-color:var(--cyan,#3bd6c6); background:rgba(59,214,198,.04); }
+  .up-drop input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+  .up-drop-ico { font-size:26px; margin-bottom:6px; }
+  .up-drop-lbl { font-size:13px; color:var(--fg,#e8f0f4); margin-bottom:4px; }
+  .up-drop-sub { font-size:10.5px; color:var(--muted,#8aa0b0); }
+  .up-drop.has-file { border-color:var(--green,#4ade80); background:rgba(74,222,128,.04); }
+  .up-drop.has-file .up-drop-ico::after { content:' ✓'; font-size:16px; color:var(--green,#4ade80); }
+
+  .up-stats { display:flex; gap:10px; flex-wrap:wrap; }
+  .up-stat { background:rgba(255,255,255,.04); border:1px solid var(--border,rgba(255,255,255,.07)); border-radius:8px; padding:8px 14px; font-size:12px; }
+  .up-stat span { color:var(--cyan,#3bd6c6); font-weight:700; margin-right:4px; }
+
+  .up-actions { display:flex; align-items:center; gap:12px; margin-top:18px; padding-top:16px; border-top:1px solid var(--border,rgba(255,255,255,.07)); flex-wrap:wrap; }
+
+  .up-btn { display:inline-flex; align-items:center; gap:6px; padding:9px 20px; border-radius:8px; border:none; font-size:13px; font-weight:600; font-family:inherit; cursor:pointer; transition:opacity .15s,transform .1s; }
+  .up-btn:active { transform:scale(.97); }
+  .up-btn-primary { background:var(--cyan,#3bd6c6); color:#0a151e; }
+  .up-btn-primary:hover { opacity:.88; }
+  .up-btn-primary:disabled { opacity:.35; cursor:not-allowed; }
+  .up-btn-ghost { background:transparent; color:var(--muted,#8aa0b0); border:1px solid var(--border,rgba(255,255,255,.1)); }
+  .up-btn-ghost:hover { border-color:var(--muted,#8aa0b0); color:var(--fg,#e8f0f4); }
+
+  .up-status { font-size:12px; padding:8px 14px; border-radius:7px; display:none; }
+  .up-status.ok  { display:block; background:rgba(74,222,128,.1);  color:var(--green,#4ade80); border:1px solid rgba(74,222,128,.25); }
+  .up-status.err { display:block; background:rgba(240,96,96,.1);   color:var(--red,#f06060);   border:1px solid rgba(240,96,96,.25); }
+  .up-status.inf { display:block; background:rgba(59,214,198,.08); color:var(--cyan,#3bd6c6);  border:1px solid rgba(59,214,198,.2); }
+
+  .up-map-warn { font-size:11px; color:var(--amber,#f5b942); background:rgba(245,185,66,.07); border:1px solid rgba(245,185,66,.2); border-radius:7px; padding:9px 11px; margin-top:10px; display:none; }
+
+  /* ── Layout gráficas ── */
+  .row { display:grid; gap:12px; }
+  .r-wide { grid-template-columns:1fr 1fr; }
+  .r3     { grid-template-columns:1fr 1fr 1fr; }
+  @media(max-width:900px){ .r-wide,.r3{ grid-template-columns:1fr; } }
+
+  .sdiv { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .slabel { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--muted,#8aa0b0); white-space:nowrap; }
+  .sline  { flex:1; height:1px; background:var(--border,rgba(255,255,255,.07)); }
+
+  .gauge-wrap { position:relative; flex:1; min-height:180px; }
+  .gauge-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none; }
+  .gc-val { font-size:15px; font-weight:700; }
+  .gc-lbl { font-size:10px; color:var(--muted,#8aa0b0); margin-top:2px; }
+
+  .leg-row { display:flex; align-items:center; justify-content:space-between; padding:3px 0; font-size:11px; }
+  .leg-name { display:flex; align-items:center; gap:5px; color:var(--muted,#8aa0b0); }
+  .leg-dot  { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .leg-vals { display:flex; gap:10px; }
+  .lv-a { font-weight:600; font-size:11px; }
+  .lv-p { color:var(--muted,#8aa0b0); font-size:10.5px; }
+
+  /* Cartera crítica */
+  .ri { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid var(--border,rgba(255,255,255,.06)); }
+  .ri:last-child { border-bottom:none; }
+  .ri-rank { width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
+  .r1 { background:var(--red,#f06060); color:#fff; }
+  .r2 { background:var(--orange,#f97316); color:#fff; }
+  .rn { background:rgba(255,255,255,.1); color:var(--muted,#8aa0b0); }
+  .ri-body { flex:1; min-width:0; }
+  .ri-name { font-size:11.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:3px; }
+  .ri-bar-wrap { height:4px; background:rgba(255,255,255,.07); border-radius:2px; }
+  .ri-bar { height:100%; background:var(--red,#f06060); border-radius:2px; }
+  .ri-amt { font-size:11.5px; font-weight:700; color:var(--red,#f06060); white-space:nowrap; }
+
+  /* Concentración */
+  .hbar { margin-bottom:8px; cursor:pointer; }
+  .hbar:hover .hb-fill { opacity:.8; }
+  .hb-hd { display:flex; justify-content:space-between; font-size:11px; margin-bottom:3px; }
+  .hb-name { color:var(--fg,#e8f0f4); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:75%; }
+  .hb-pct  { font-weight:700; }
+  .hb-track { height:5px; background:rgba(255,255,255,.07); border-radius:3px; }
+  .hb-fill  { height:100%; border-radius:3px; transition:width .4s; }
+
+  /* Modal */
+  .modal-box { background:var(--card,#121e27); border:1px solid var(--border,rgba(255,255,255,.1)); border-radius:14px; padding:22px; width:min(480px,92vw); max-height:90vh; overflow-y:auto; }
+  .modal-hd  { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; }
+  .modal-rfc { font-size:10.5px; color:var(--muted,#8aa0b0); margin-bottom:3px; font-family:monospace; }
+  .modal-nombre { font-size:15px; font-weight:700; color:var(--fg,#e8f0f4); }
+  .modal-close { background:none; border:none; color:var(--muted,#8aa0b0); font-size:18px; cursor:pointer; padding:0 4px; line-height:1; }
+  .modal-close:hover { color:var(--fg,#e8f0f4); }
+  .modal-kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:4px; }
+  .mk { background:rgba(255,255,255,.04); border:1px solid var(--border,rgba(255,255,255,.07)); border-radius:8px; padding:10px 12px; }
+  .mk-v { font-size:14px; font-weight:700; color:var(--fg,#e8f0f4); margin-bottom:2px; }
+  .mk-l { font-size:10px; color:var(--muted,#8aa0b0); text-transform:uppercase; letter-spacing:.05em; }
+
+  /* Barras del modal */
+  .mb-row { display:flex; align-items:center; gap:8px; margin-bottom:7px; }
+  .mb-lbl { font-size:10.5px; color:var(--muted,#8aa0b0); width:68px; flex-shrink:0; }
+  .mb-track { flex:1; height:6px; background:rgba(255,255,255,.07); border-radius:3px; }
+  .mb-fill  { height:100%; border-radius:3px; }
+  .mb-val { font-size:11px; font-weight:600; width:72px; text-align:right; flex-shrink:0; }
+
+  /* no-r */
+  .no-r { font-size:12px; color:var(--muted,#8aa0b0); padding:16px 0; text-align:center; }
+
+</style>
