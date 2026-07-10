@@ -536,7 +536,7 @@ function renderGraficas(filas) {
         tooltip:{ callbacks:{ label:ctx=>' '+ctx.dataset.label+': '+formatear(ctx.raw) } }
       },
       scales:{
-        x:{ stacked:true, ticks:{font:{size:8.5,family:'DM Sans'},color:tc,maxRotation:28}, grid:{display:false} },
+        x:{ stacked:false, ticks:{font:{size:8.5,family:'DM Sans'},color:tc,maxRotation:28}, grid:{display:false} },
         y:{ type:'logarithmic', ticks:{font:{size:8.5,family:'DM Sans'},color:tc,callback:v=>'$'+(v/1e3).toFixed(0)+'K'}, grid:{color:gc} }
       }
     }
