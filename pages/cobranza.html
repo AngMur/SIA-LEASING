@@ -42,7 +42,7 @@
 
 <div class="row r-wide">
   <div class="chart-card">
-    <div class="ch"><div><h3>Top clientes por saldo total</h3><div class="cs">Distribución por antigüedad</div></div></div>
+    <div class="ch"><div><h3>Top buenos pagadores</h3><div class="cs">Deuda no vencida</div></div></div>
     <div style="position:relative;height:240px;"><canvas id="barChart"></canvas></div>
   </div>
   <div class="chart-card" style="display:flex;flex-direction:column;">
@@ -504,8 +504,19 @@ function renderGraficas(filas) {
   const gc    = 'rgba(255,255,255,0.05)';
   const GRAND = filas.reduce((s,f) => s+f.total, 0);
 
-  // ── 1. Barras apiladas top 8 ──────────────────────────
-  const top8 = [...filas].sort((a,b) => b.total-a.total).slice(0,8);
+  // ── 1. Barras apiladas top 10 pagadores ────────────────
+  const getStatusOrder = f => {
+    if (f.masDe90 > 0) return 4;
+    if (f.dias61a90 > 0) return 3;
+    if (f.dias31a60 > 0) return 2;
+    if (f.dias0a30 > 0) return 1;
+    return 0;
+  };
+  const top8 = [...filas].sort((a,b) => {
+    const statusDiff = getStatusOrder(a) - getStatusOrder(b);
+    if (statusDiff !== 0) return statusDiff;
+    return b.total - a.total;
+  }).slice(0,10);
   charts.push(new Chart(document.getElementById('barChart'), {
     type:'bar',
     data:{
@@ -526,7 +537,7 @@ function renderGraficas(filas) {
       },
       scales:{
         x:{ stacked:true, ticks:{font:{size:8.5,family:'DM Sans'},color:tc,maxRotation:28}, grid:{display:false} },
-        y:{ stacked:true, ticks:{font:{size:8.5,family:'DM Sans'},color:tc,callback:v=>'$'+(v/1e3).toFixed(0)+'K'}, grid:{color:gc} }
+        y:{ type:'logarithmic', ticks:{font:{size:8.5,family:'DM Sans'},color:tc,callback:v=>'$'+(v/1e3).toFixed(0)+'K'}, grid:{color:gc} }
       }
     }
   }));
